@@ -34,3 +34,6 @@
 
 # Ignore RubyMine folder
 .idea
+
+# Ignore Rubocop log made by rubocop > cop.log
+cop.log
