@@ -11,4 +11,12 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :new
     end
   end
+
+  describe 'GET #show' do
+    before { get :show, params: { id: answer } }
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
 end
