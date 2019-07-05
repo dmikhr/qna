@@ -3,4 +3,7 @@ FactoryBot.define do
     body { "MyText for answer" }
     question { nil }
   end
+  trait :invalid do
+    body { nil }
+  end
 end
