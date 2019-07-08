@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'User can sign up', %q{
-  User can create an account
+  In order to create an account
 } do
   describe 'User tries to sign up' do
 
