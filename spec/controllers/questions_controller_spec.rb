@@ -2,9 +2,16 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
   describe 'GET #new' do
+    before { login(user) }
+
     before { get :new }
+
+    it 'assigns a new Question to @question' do
+      expect(assigns(:question)).to be_a_new(Question)
+    end
 
     it 'renders new view' do
       expect(response).to render_template :new
@@ -12,6 +19,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    before { login(user) }
+
     before { get :show, params: { id: question } }
 
     it 'renders show view' do
@@ -20,6 +29,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'saves a new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
