@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-
+  before_action :authenticate_user!
   before_action :set_question, only: %i[create]
 
   def new; end
@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     if @answer.save
-      redirect_to @question, notice: "Answer was submitted successfully"
+      redirect_to @question
     else
       redirect_to @question, notice: "Answer can't be empty"
     end

@@ -4,5 +4,10 @@ div
   - @question.answers.each do |answer|
     p= answer.body
 
-p Write answer to the question
-=render 'answer_form'
+- if current_user.present?
+    p Write answer to the question
+    =render 'answer_form'
+- else
+    p
+      a href="#{new_user_session_path}" Log In
+      |  in order to write an answer

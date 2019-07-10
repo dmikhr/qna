@@ -3,8 +3,12 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question_id: question.id) }
+  let(:user) { create(:user) }
+
+  before { login(user) }
 
   describe 'GET #new' do
+
     before { get :new, params: { question_id: question.id } }
 
     it 'renders new view' do
