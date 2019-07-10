@@ -1,2 +1,5 @@
 h1= @question.title
 p= @question.body
+div
+  - @question.answers.each do |answer|
+    p= answer.body
