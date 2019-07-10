@@ -5,9 +5,4 @@ div
     p= answer.body
 
 p Write answer to the question
-=render 'shared/errors', resource: @answer
-
-= form_with model: [@question, @answer], local: true do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Write Answer'
+=render 'answer_form'
