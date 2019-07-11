@@ -4,6 +4,7 @@ feature 'User can see a question and corresponding answers', %q{
   User visits a page with a question and see question
   and all answers corresponded to this question
 } do
+
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answers) { create_list(:answer, 5, question: question, user: user) }
