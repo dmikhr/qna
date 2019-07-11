@@ -33,7 +33,7 @@ feature 'User can sign up', %q{
     scenario 'with invalid email' do
       sign_up(email = 'invalid_email',
               password = '12345678',
-              password_confirmation = '87654321')
+              password_confirmation = '12345678')
 
       expect(page).to have_content "Sign up"
     end
