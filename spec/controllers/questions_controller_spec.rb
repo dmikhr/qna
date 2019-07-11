@@ -55,15 +55,57 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
+    context 'Author' do
+      before { login(user) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it "can't find deleted question" do
+        delete :destroy, params: { id: question }
+        expect { Question.find(question.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+
+      it 'redirects to list of questions' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to list of questions' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'Not an author' do
+      let(:another_user) { create(:user) }
+      before { login(another_user) }
+
+      it 'tries to delete the question' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
+
+      it "can find the question" do
+        delete :destroy, params: { id: question }
+        expect(Question.find(question.id)).to eq(question)
+      end
+
+      it 'redirects to list of questions' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'Unauthorized user' do
+      it 'tries to delete the question' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
+
+      it "can find the question" do
+        delete :destroy, params: { id: question }
+        expect(Question.find(question.id)).to eq(question)
+      end
+
+      it 'redirects to login page' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
 end
