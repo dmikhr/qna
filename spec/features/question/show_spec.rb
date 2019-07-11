@@ -6,7 +6,7 @@ feature 'User can see a question and corresponding answers', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user) }
   given!(:answers) { create_list(:answer, 5, question: question, user: user) }
 
   describe 'User' do
