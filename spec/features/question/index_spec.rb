@@ -5,7 +5,7 @@ feature 'User can see a list of questions', %q{
   all questions
 } do
   given(:user) { create(:user) }
-  given!(:questions) { create_list(:question, 10) }
+  given!(:questions) { create_list(:question, 10, user: user) }
 
   scenario 'see questions list' do
     visit questions_path

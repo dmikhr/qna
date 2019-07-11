@@ -1,8 +1,13 @@
 h1= @question.title
 p= @question.body
-div
-  - @question.answers.each do |answer|
+- if current_user.present? && @question.user == current_user
+    p= button_to 'Delete question', question_path(@question), method: :delete
+
+- @question.answers.each do |answer|
+  div
     p= answer.body
+    - if current_user.present? && answer.user == current_user
+        p= button_to 'Delete answer', answer_path(answer), method: :delete
 
 - if current_user.present?
     p Write answer to the question
