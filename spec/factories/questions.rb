@@ -6,8 +6,6 @@ FactoryBot.define do
     sequence :body do |n|
       "Body of a question number #{n}"
     end
-    # title { "MyString for question" }
-    # body { "MyText for question" }
 
     trait :invalid do
       title { nil }
