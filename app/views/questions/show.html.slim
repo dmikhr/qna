@@ -1,12 +1,12 @@
 h1= @question.title
 p= @question.body
-- if is_author?(@question)
+- if current_user&.is_author?(@question)
     p= button_to 'Delete question', question_path(@question), method: :delete
 
 - @question.answers.each do |answer|
   div
     p= answer.body
-    - if is_author?(answer)
+    - if current_user&.is_author?(answer)
         p= button_to 'Delete answer', answer_path(answer), method: :delete
 
 - if current_user.present?

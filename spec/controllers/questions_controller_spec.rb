@@ -64,7 +64,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it "can't find deleted question" do
         delete :destroy, params: { id: question }
-        expect { Question.find(question.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect(Question.exists?(question.id)).to eq(false)
       end
 
       it 'redirects to list of questions' do
@@ -81,11 +81,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
 
-      it "can find the question" do
-        delete :destroy, params: { id: question }
-        expect(Question.find(question.id)).to eq(question)
-      end
-
       it 'redirects to list of questions' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
@@ -95,11 +90,6 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Unauthorized user' do
       it 'tries to delete the question' do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
-      end
-
-      it "can find the question" do
-        delete :destroy, params: { id: question }
-        expect(Question.find(question.id)).to eq(question)
       end
 
       it 'redirects to login page' do
