@@ -29,6 +29,11 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
+      it 'assigns answer to current user' do
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
+        expect(answer.user_id).to eq(user.id)
+      end
+
       it 'saves a new answer in the database' do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
       end
@@ -46,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question show view' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to render_template('questions/show')
       end
     end
   end
@@ -61,7 +66,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it "can't find deleted answer" do
         delete :destroy, params: { id: answer }
-        expect(Answer.exists?(answer.id)).to eq(false)
+        expect(assigns(:answer)).to be_destroyed
       end
 
       it 'redirects to list of questions' do

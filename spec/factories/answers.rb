@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence :body do |n|
       "Answer body #{n}"
     end
-    question { nil }
+    question
   end
 
   trait :invalid do

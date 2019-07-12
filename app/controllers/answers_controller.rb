@@ -5,20 +5,18 @@ class AnswersController < ApplicationController
 
   def new; end
 
-  def show; end
-
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
       redirect_to @question
     else
-      redirect_to @question, notice: "Answer can't be empty"
+      render 'questions/show'
     end
   end
 
   def destroy
-    @answer.destroy if current_user.is_author?(@answer)
+    @answer.destroy if current_user.author_of?(@answer)
     redirect_to question_path(@answer.question)
   end
 

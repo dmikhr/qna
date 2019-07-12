@@ -17,24 +17,12 @@ RSpec.describe User, type: :model do
     let(:answer) { create(:answer, question: question, user: user) }
     let(:another_answer) { create(:answer, question: question, user: another_user) }
 
-    context 'of a question' do
-      it 'written by user' do
-        expect(user.is_author?(question)).to be(true)
-      end
-
-      it 'written by another user' do
-        expect(user.is_author?(another_question)).to be(false)
-      end
+    it 'of a question written by user' do
+      expect(user).to be_author_of(question)
     end
 
-    context 'of an answer' do
-      it 'written by user' do
-        expect(user.is_author?(answer)).to be(true)
-      end
-
-      it 'written by another user' do
-        expect(user.is_author?(another_answer)).to be(false)
-      end
+    it 'of a question written by another user' do
+      expect(user).to_not be_author_of(another_question)
     end
   end
 end
