@@ -63,13 +63,9 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Author' do
       before { login(user) }
 
-      it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
-      end
-
       it "can't find deleted question" do
         delete :destroy, params: { id: question }
-        expect(Question.exists?(question.id)).to eq(false)
+        expect(assigns(:question)).to be_destroyed
       end
 
       it 'redirects to list of questions' do

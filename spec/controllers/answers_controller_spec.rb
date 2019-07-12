@@ -60,10 +60,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author' do
       before { login(user) }
 
-      it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
-      end
-
       it "can't find deleted answer" do
         delete :destroy, params: { id: answer }
         expect(assigns(:answer)).to be_destroyed
