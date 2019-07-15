@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: %i[create]
-  before_action :set_answer, only: %i[destroy]
+  before_action :set_answer, only: %i[update destroy]
 
   def new; end
 
@@ -14,6 +14,11 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy if current_user.author_of?(@answer)
     redirect_to question_path(@answer.question)
+  end
+
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   private
