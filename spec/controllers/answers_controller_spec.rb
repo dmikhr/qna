@@ -126,5 +126,16 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :update
       end
     end
+
+    context 'Not an author' do
+      let(:another_user) { create(:user) }
+      before { login(another_user) }
+
+      it 'tries to edit the answer' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        answer.reload
+        expect(answer.body).to_not eq 'new body'
+      end
+    end
   end
 end
