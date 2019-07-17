@@ -61,13 +61,13 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it "can't find deleted answer" do
-        delete :destroy, params: { id: answer }
+        delete :destroy, params: { id: answer }, format: :js
         expect(assigns(:answer)).to be_destroyed
       end
 
-      it 'redirects to list of questions' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path(question)
+      it 'render answers list' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -76,23 +76,23 @@ RSpec.describe AnswersController, type: :controller do
       before { login(another_user) }
 
       it 'tries to delete the answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 'redirects to list of questions' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path(question)
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response.body).to be_empty
       end
     end
 
     context 'Unauthorized user' do
       it 'tries to delete the answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 'redirects to login page' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to new_user_session_path
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response.body).to have_content 'You need to sign in or sign up before continuing'
       end
     end
   end
