@@ -1,10 +1,8 @@
 h1= @question.title
 p= @question.body
-- if current_user&.author_of?(@question)
-    p= button_to 'Delete question', question_path(@question), method: :delete
 
 .answers
-  = render @question.answers 
+  = render @question.answers
 
 - if current_user.present?
     p Write answer to the question

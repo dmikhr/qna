@@ -1,5 +1,6 @@
-div
-  -if answer.persisted?
+-if answer.persisted?
+  div id="answer_id_#{answer.id}"
+    span id="errors_answer_id_#{answer.id}"
     p= answer.body
     - if current_user&.author_of?(answer)
         p= button_to 'Delete answer', answer_path(answer), method: :delete
