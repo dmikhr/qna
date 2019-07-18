@@ -17,7 +17,7 @@ RSpec.describe Answer, type: :model do
 
     scenario 'select answer as best' do
       expect{ answers[-1].select_best }.to change{ answers[-1].best }.from(false).to(true)
-      answers[0, answers.size - 1].each { |answer| expect(answer.best).to eq(false) }
+      answers[0, answers.size - 1].each { |answer| expect(answer.best).to be_falsey }
     end
 
     scenario 'change best answers' do
