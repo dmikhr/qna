@@ -168,7 +168,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'selects the best answer' do
         patch :select_best, params: { id: answer2, answer: { best: true } }, format: :js
         answer2.reload
-        expect(answer2.best).to be_truthy
+        expect(answer2.best).to eq true
       end
 
       it 'renders select_best view' do
@@ -182,7 +182,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'selects the best answer' do
         patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
         answer.reload
-        expect(answer.best).to be_truthy
+        expect(answer.best).to eq true
       end
 
       it 'renders select_best view' do
@@ -198,7 +198,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'tries to select the best answer' do
         patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
         answer.reload
-        expect(answer.best).to be_falsey
+        expect(answer.best).to eq false
       end
     end
 
@@ -206,7 +206,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'tries to select the best answer' do
         patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
         answer.reload
-        expect(answer.best).to be_falsey
+        expect(answer.best).to eq false
       end
     end
   end

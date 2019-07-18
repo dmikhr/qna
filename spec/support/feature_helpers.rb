@@ -5,4 +5,8 @@ module FeatureHelpers
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
+
+  def page_location(elem)
+    page.body.index(elem)
+  end
 end

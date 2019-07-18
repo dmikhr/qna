@@ -9,7 +9,7 @@ feature 'User can select the best answer to his question', %q{
   given!(:user) { create(:user) }
   given!(:user2) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answers) { create_list(:answer, 2, question: question, user: user) }
+  given!(:answers) { create_list(:answer, 4, question: question, user: user) }
 
   scenario "Unauthenticated user can't select the best answer" do
     visit question_path(question)
@@ -38,6 +38,26 @@ feature 'User can select the best answer to his question', %q{
       end
 
       expect(page.find('.answers div:first-child')).to have_content answers[-1].body
+    end
+
+    scenario 'selects new answer as best' do
+
+      within "div#answer_id_#{answers[-1].id}" do
+        click_on 'Select as best'
+      end
+
+      within "div#answer_id_#{answers[0].id}" do
+        click_on 'Select as best'
+        expect(page).to_not have_content 'Select as best'
+      end
+
+      answers[1, answers.size].each do |answer|
+        within "div#answer_id_#{answer.id}" do
+          expect(page).to have_content 'Select as best'
+        end
+      end
+
+      expect(page.find('.answers div:first-child')).to have_content answers[0].body
     end
   end
 

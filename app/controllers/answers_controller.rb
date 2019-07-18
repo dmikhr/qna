@@ -23,10 +23,7 @@ class AnswersController < ApplicationController
   end
 
   def select_best
-    if current_user&.author_of?(@answer.question)
-      @answer.select_best
-      @answer.save
-    end
+    @answer.select_best if current_user&.author_of?(@answer.question)
   end
 
   private

@@ -62,5 +62,4 @@ feature 'User can edit his question', %q{
 
     expect(page).to_not have_link 'Edit question'
   end
-
 end

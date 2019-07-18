@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
 
+  # new answers are below older, best is on the top
   default_scope { order(best: :desc).order(created_at: :asc) }
 
   belongs_to :question
@@ -8,9 +9,11 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def select_best
-    question.answers.where(best: true).update_all(best: false)
-    self.best = true
-    save
+    Answer.transaction do
+      question.answers.where(best: true).update_all(best: false)
+      self.best = true
+      save
+    end
   end
 
 end

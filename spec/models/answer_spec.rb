@@ -17,18 +17,32 @@ RSpec.describe Answer, type: :model do
 
     scenario 'select answer as best' do
       expect{ answers[-1].select_best }.to change{ answers[-1].best }.from(false).to(true)
-      answers[0, answers.size - 1].each { |answer| expect(answer.best).to be_falsey }
+      answers[0, answers.size - 1].each { |answer| expect(answer.best).to eq false }
     end
 
-    scenario 'change best answers' do
+    scenario 'best answer is first in the list' do
+      expect(question.answers.first).to_not eq answers[-1]
       answers[-1].select_best
-      answers[0].select_best
+      expect(question.answers.first).to eq answers[-1]
+    end
 
-      answers[-1].reload
-      answers[0].reload
+    scenario 'setting new best answer' do
+      expect do
+        answers[-1].select_best
+        answers[0].select_best
+        answers[-1].reload
+        answers[0].reload
+      end.to change{ answers[0].best }.from(false).to(true)
+    end
 
-      expect(answers[-1].best).to be_falsey
-      expect(answers[0].best).to be_truthy
+    scenario 'old best answer is not best now' do
+      answers[-1].select_best
+
+      expect do
+        answers[0].select_best
+        answers[0].reload
+        answers[-1].reload
+      end.to change{ answers[-1].best }.from(true).to(false)
     end
   end
 end
