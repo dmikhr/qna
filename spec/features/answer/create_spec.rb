@@ -18,9 +18,9 @@ feature 'User can submit answer to a question', %q{
     scenario 'submit answer to the question' do
       fill_in 'Body', with: 'This is answer to the question'
       click_on 'Write Answer'
-      # expect(page).to have_content 'This is answer to the question'
+
       expect(current_path).to eq question_path(question)
-      within '.answers' do # чтобы убедиться, что ответ в списке, а не в форме
+      within '.answers' do
         expect(page).to have_content 'This is answer to the question'
       end
     end

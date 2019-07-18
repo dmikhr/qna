@@ -38,7 +38,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer), format: :js } }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to question show view' do
+      it 'renders create view' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer), format: :js }
         expect(response).to render_template :create
       end
@@ -49,7 +49,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to question show view' do
+      it 'renders create view' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :create
       end
@@ -65,7 +65,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer)).to be_destroyed
       end
 
-      it 'render answers list' do
+      it 'render destroy view' do
         delete :destroy, params: { id: answer }, format: :js
         expect(response).to render_template :destroy
       end
@@ -79,7 +79,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to list of questions' do
+      it 'get empty response' do
         delete :destroy, params: { id: answer }, format: :js
         expect(response.body).to be_empty
       end
@@ -90,7 +90,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to login page' do
+      it 'needs to login in order to proceed' do
         delete :destroy, params: { id: answer }, format: :js
         expect(response.body).to have_content 'You need to sign in or sign up before continuing'
       end
@@ -135,6 +135,11 @@ RSpec.describe AnswersController, type: :controller do
         answer.reload
         expect(answer.body).to_not eq 'new body'
       end
+
+      it 'renders update view' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
     end
 
     context 'Unauthorized user' do
@@ -142,6 +147,46 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         answer.reload
         expect(answer.body).to_not eq 'new body'
+      end
+
+      it 'needs to login in order to proceed' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        expect(response.body).to have_content 'You need to sign in or sign up before continuing'
+      end
+    end
+  end
+
+  describe 'PATCH #select_best' do
+    context 'Author of a question' do
+      before { login(user) }
+      it 'selects the best answer' do
+        patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+        expect(answer.best).to eq(true)
+      end
+
+      it 'renders select_best view' do
+        patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
+        expect(response).to render_template :select_best
+      end
+    end
+
+    context 'Not an author of a question' do
+      let(:another_user) { create(:user) }
+      before { login(another_user) }
+
+      it 'tries to select the best answer' do
+        patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+        expect(answer.best).to eq(false)
+      end
+    end
+
+    context 'Unauthorized user' do
+      it 'tries to select the best answer' do
+        patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+        expect(answer.best).to eq(false)
       end
     end
   end
