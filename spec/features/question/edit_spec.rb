@@ -31,6 +31,9 @@ feature 'User can edit his question', %q{
         fill_in 'Question title', with: 'edited question title'
         fill_in 'Question body', with: 'edited question body'
         click_on 'Save'
+        # all tests work fine with default Capbara waiting time,
+        # this is just to try custom delay helper in action
+        wait_for_ajax
 
         expect(page).to have_content 'edited question title'
         expect(page).to have_selector 'textarea', text: 'edited question body', visible: false
