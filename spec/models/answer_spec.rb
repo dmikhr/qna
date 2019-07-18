@@ -27,8 +27,8 @@ RSpec.describe Answer, type: :model do
       answers[-1].reload
       answers[0].reload
 
-      expect(answers[-1].best).to eq(false)
-      expect(answers[0].best).to eq(true)
+      expect(answers[-1].best).to be_falsey
+      expect(answers[0].best).to be_truthy
     end
   end
 end
