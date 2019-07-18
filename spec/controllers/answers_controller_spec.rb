@@ -157,7 +157,27 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #select_best' do
+    let(:user2) { create(:user) }
+    let!(:answer2) { create(:answer, question_id: question.id, user: user2) }
+
+    # two scenarios for selecting best answer
+    # one - when author of a question is not an author of an answer
+    # second - when question and answer have the same author
     context 'Author of a question' do
+      before { login(user) }
+      it 'selects the best answer' do
+        patch :select_best, params: { id: answer2, answer: { best: true } }, format: :js
+        answer2.reload
+        expect(answer2.best).to be_truthy
+      end
+
+      it 'renders select_best view' do
+        patch :select_best, params: { id: answer2, answer: { best: true } }, format: :js
+        expect(response).to render_template :select_best
+      end
+    end
+
+    context 'Author of a question and answer' do
       before { login(user) }
       it 'selects the best answer' do
         patch :select_best, params: { id: answer, answer: { best: true } }, format: :js
