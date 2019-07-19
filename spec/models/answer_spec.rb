@@ -15,18 +15,18 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question, user: user) }
     let(:answers) { create_list(:answer, 5, question: question, user: user) }
 
-    scenario 'select answer as best' do
+    it 'select answer as best' do
       expect{ answers[-1].select_best }.to change{ answers[-1].best }.from(false).to(true)
       answers[0, answers.size - 1].each { |answer| expect(answer.best).to eq false }
     end
 
-    scenario 'best answer is first in the list' do
+    it 'best answer is first in the list' do
       expect(question.answers.first).to_not eq answers[-1]
       answers[-1].select_best
       expect(question.answers.first).to eq answers[-1]
     end
 
-    scenario 'setting new best answer' do
+    it 'setting new best answer' do
       expect do
         answers[-1].select_best
         answers[0].select_best
@@ -35,7 +35,7 @@ RSpec.describe Answer, type: :model do
       end.to change{ answers[0].best }.from(false).to(true)
     end
 
-    scenario 'old best answer is not best now' do
+    it 'old best answer is not best now' do
       answers[-1].select_best
 
       expect do

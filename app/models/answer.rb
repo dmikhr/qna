@@ -11,8 +11,7 @@ class Answer < ApplicationRecord
   def select_best
     Answer.transaction do
       question.answers.where(best: true).update_all(best: false)
-      self.best = true
-      save
+      update!(best: true)
     end
   end
 
