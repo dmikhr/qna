@@ -33,11 +33,6 @@ class QuestionsController < ApplicationController
     @question.update(question_params) if current_user&.author_of?(@question)
   end
 
-  def delete_file
-    @file = ActiveStorage::Attachment.find(params[:id])
-    @file.purge if current_user&.author_of?(@file.record)
-  end
-
   private
 
   def question_params
