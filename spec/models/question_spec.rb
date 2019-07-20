@@ -12,4 +12,8 @@ RSpec.describe Question, type: :model do
 
   it { should validate_length_of(:title).is_at_least(10).is_at_most(150) }
   it { should validate_length_of(:body).is_at_least(10) }
+
+  it 'have many attached files' do
+    expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
 end
