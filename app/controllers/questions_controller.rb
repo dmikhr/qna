@@ -25,12 +25,17 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy if current_user.author_of?(@question)
+    @question.destroy if current_user&.author_of?(@question)
     redirect_to questions_path
   end
 
   def update
     @question.update(question_params) if current_user&.author_of?(@question)
+  end
+
+  def delete_file
+    @file = ActiveStorage::Attachment.find(params[:id])
+    @file.purge if current_user&.author_of?(@file.record)
   end
 
   private

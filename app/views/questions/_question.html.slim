@@ -4,7 +4,8 @@
     = link_to question.title,  question_path(question)
     - if question.files.attached?
       - question.files.each do |file|
-        p= link_to file.filename.to_s, url_for(file)
+        div id="file_id_#{file.id}"
+          p= link_to file.filename.to_s, url_for(file)
     - if current_user&.author_of?(question)
         .question
           p= button_to 'Delete question', question_path(question), method: :delete
@@ -18,3 +19,9 @@
             = f.label :files
             = f.file_field :files, multiple: true
             = f.submit 'Save question'
+
+            - if question.files.attached?
+              - question.files.each do |file|
+                div id="edit_file_id_#{file.id}"
+                  p= link_to file.filename.to_s, url_for(file)
+                  p= link_to 'Delete file', delete_file_question_path(file.id), remote: true, method: :delete
