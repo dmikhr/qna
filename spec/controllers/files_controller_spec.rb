@@ -4,10 +4,9 @@ RSpec.describe FilesController, type: :controller do
 
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
+  let!(:question) { create(:question,:with_file, user: user) }
 
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question, :with_file, user: user) }
 
     context 'Author' do
       before { login(user) }
