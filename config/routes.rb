@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   resources :questions do
-    delete :delete_file, on: :member
     resources :answers, shallow: true do
       patch :select_best, on: :member
     end
   end
+
+  resources :files, only: :destroy
 end

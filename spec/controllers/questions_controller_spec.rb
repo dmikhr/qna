@@ -153,43 +153,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
-  describe 'DELETE #delete_file' do
-    let!(:question) { create(:question, :with_file, user: user) }
-
-    context 'Author' do
-      before { login(user) }
-      it 'deletes attached file' do
-        expect { delete :delete_file, params: { id: question.files.first }, format: :js }.to change(question.files, :count).by(-1)
-      end
-
-      it 'renders delete_file view' do
-        delete :delete_file, params: { id: question.files.first }, format: :js
-        expect(response).to render_template :delete_file
-      end
-    end
-
-    context 'Not an author' do
-      before { login(another_user) }
-      it 'tries to delete attached file' do
-        expect { delete :delete_file, params: { id: question.files.first }, format: :js }.to_not change(question.files, :count)
-      end
-
-      it 'renders delete_file view' do
-        delete :delete_file, params: { id: question.files.first }, format: :js
-        expect(response).to render_template :delete_file
-      end
-    end
-
-    context 'Unauthorized user' do
-      it 'tries to delete attached file' do
-        expect { delete :delete_file, params: { id: question.files.first }, format: :js }.to_not change(question.files, :count)
-      end
-
-      it 'show login message' do
-        delete :delete_file, params: { id: question.files.first }, format: :js
-        expect(response.body).to eq 'You need to sign in or sign up before continuing.'
-      end
-    end
-  end
 end
