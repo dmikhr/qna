@@ -29,6 +29,16 @@ feature 'User can submit answer to a question', %q{
       click_on 'Write Answer'
       expect(page).to have_content "Body can't be blank"
     end
+
+    scenario 'submit answer with attached files' do
+      fill_in 'Body', with: 'This is answer to the question'
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Write Answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
   end
 
   scenario "Unauthenticated user can't submit answer" do
