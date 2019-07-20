@@ -30,7 +30,7 @@ feature 'User can edit his question', %q{
 
         fill_in 'Question title', with: 'edited question title'
         fill_in 'Question body', with: 'edited question body'
-        click_on 'Save'
+        click_on 'Save question'
         # all tests work fine with default Capbara waiting time,
         # this is just to try custom delay helper in action
         wait_for_ajax
@@ -47,7 +47,7 @@ feature 'User can edit his question', %q{
 
         fill_in 'Question title', with: ''
         fill_in 'Question body', with: ''
-        click_on 'Save'
+        click_on 'Save question'
 
         expect(page).to_not have_content "Title can't be blank"
         expect(page).to have_content "Body can't be blank"
@@ -60,7 +60,7 @@ feature 'User can edit his question', %q{
         click_on 'Edit question'
 
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
-        click_on 'Save'
+        click_on 'Save question'
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
