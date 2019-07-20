@@ -24,7 +24,7 @@ feature 'User can edit his question', %q{
       visit questions_path
     end
 
-    scenario 'edits his answer' do
+    scenario 'edits his question' do
       within "div#question_id_#{question.id}" do
         click_on 'Edit question'
 
@@ -41,7 +41,7 @@ feature 'User can edit his question', %q{
       end
     end
 
-    scenario 'edits his answer with errors' do
+    scenario 'edits his question with errors' do
       within "div#question_id_#{question.id}" do
         click_on 'Edit question'
 
@@ -52,6 +52,18 @@ feature 'User can edit his question', %q{
         expect(page).to_not have_content "Title can't be blank"
         expect(page).to have_content "Body can't be blank"
         expect(page).to have_selector 'textarea'
+      end
+    end
+
+    scenario 'add files to edited question' do
+      within "div#question_id_#{question.id}" do
+        click_on 'Edit question'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
   end
