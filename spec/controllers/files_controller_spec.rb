@@ -37,7 +37,7 @@ RSpec.describe FilesController, type: :controller do
         expect { delete :destroy, params: { id: question.files.first }, format: :js }.to_not change(question.files, :count)
       end
 
-      it 'show login message' do
+      it 'no view renders' do
         delete :destroy, params: { id: question.files.first }, format: :js
         expect(response.body).to be_empty
       end
