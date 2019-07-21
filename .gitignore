@@ -39,3 +39,5 @@
 cop.log
 
 coverage/*
+
+.env

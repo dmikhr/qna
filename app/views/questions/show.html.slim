@@ -1,6 +1,9 @@
 h1= @question.title
 p= @question.body
 
+- @question.files.each do |file|
+  p= link_to file.filename.to_s, url_for(file)
+
 .answers
   = render @question.answers
 

@@ -2,6 +2,9 @@
   div id="question_id_#{question.id}"
     span id="errors_question_id_#{question.id}"
     = link_to question.title,  question_path(question)
+    - question.files.each do |file|
+      div id="file_id_#{file.id}"
+        p= link_to file.filename.to_s, url_for(file)
     - if current_user&.author_of?(question)
         .question
           p= button_to 'Delete question', question_path(question), method: :delete
@@ -12,4 +15,11 @@
             = f.text_field :title
             = f.label :body, 'Question body'
             = f.text_area :body
+            = f.label :files
+            = f.file_field :files, multiple: true, direct_upload: true
             = f.submit 'Save question'
+
+            - question.files.each do |file|
+              div id="edit_file_id_#{file.id}"
+                p= link_to file.filename.to_s, url_for(file)
+                p= link_to 'Delete file', file_path(file), remote: true, method: :delete

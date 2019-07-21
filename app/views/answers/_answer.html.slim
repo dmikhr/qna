@@ -2,6 +2,9 @@
   div id="answer_id_#{answer.id}"
     span id="errors_answer_id_#{answer.id}"
     p= answer.body
+    - answer.files.each do |file|
+      div id="file_id_#{file.id}"
+        p= link_to file.filename.to_s, url_for(file)
     - if show_select_best_option?(answer)
         p= link_to 'Select as best', select_best_answer_path(answer), remote: true, class: 'select-best', method: :patch
     - if current_user&.author_of?(answer)
@@ -10,4 +13,11 @@
         = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
           = f.label :body, 'Your answer'
           = f.text_area :body
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
           = f.submit 'Save'
+
+          - answer.files.each do |file|
+            div id="edit_file_id_#{file.id}"
+              p= link_to file.filename.to_s, url_for(file)
+              p= link_to 'Delete file', file_path(file), remote: true, method: :delete

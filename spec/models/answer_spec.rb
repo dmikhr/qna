@@ -45,4 +45,8 @@ RSpec.describe Answer, type: :model do
       end.to change{ answers[-1].best }.from(true).to(false)
     end
   end
+
+  it 'have many attached files' do
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
 end

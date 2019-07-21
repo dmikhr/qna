@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let!(:question) { create(:question, user: user) }
 
   describe 'GET #new' do
@@ -75,7 +76,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Not an author' do
-      let(:another_user) { create(:user) }
+
       before { login(another_user) }
 
       it 'tries to delete the question' do
@@ -131,7 +132,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Not an author' do
-      let(:another_user) { create(:user) }
       before { login(another_user) }
 
       it 'tries to edit the question' do
