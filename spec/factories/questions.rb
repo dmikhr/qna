@@ -11,7 +11,7 @@ FactoryBot.define do
       title { nil }
     end
 
-    trait :with_file do
+    trait :with_files do
       files { [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb"),
                fixture_file_upload("#{Rails.root}/spec/spec_helper.rb")] }
     end

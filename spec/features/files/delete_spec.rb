@@ -2,9 +2,9 @@ require 'rails_helper'
 
 feature 'User can delete file from his own question' do
   given!(:author_user) { create(:user) }
-  given!(:question) { create(:question, :with_file, user: author_user) }
+  given!(:question) { create(:question, :with_files, user: author_user) }
   given!(:question_without_files) { create(:question, user: author_user) }
-  given!(:answer) { create(:answer, :with_file, question: question_without_files, user: author_user) }
+  given!(:answer) { create(:answer, :with_files, question: question_without_files, user: author_user) }
 
   describe 'Author deletes file', js: true do
 
