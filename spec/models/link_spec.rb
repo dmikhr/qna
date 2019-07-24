@@ -23,4 +23,24 @@ RSpec.describe Link, type: :model do
       expect(link.errors[:url]).to include "URL is not valid"
     end
   end
+
+  describe 'Gist link' do
+    it 'valid' do
+      link = Link.new(name: 'Gist link', url: 'https://gist.github.com/dmikhr/c7d219d8532bb4f55f53c57aefb1200f')
+      expect(link).to be_gist_link
+    end
+
+    it 'not valid' do
+      link = Link.new(name: 'Link', url: 'http://example/com/page/1')
+      expect(link).to_not be_gist_link
+
+      link2 = Link.new(name: 'Gist website', url: 'https://gist.github.com')
+      expect(link2).to_not be_gist_link
+    end
+
+    it 'get its contents' do
+      link = Link.new(name: 'Gist link', url: 'https://gist.github.com/dmikhr/c7d219d8532bb4f55f53c57aefb1200f')
+      expect(link.gist_contents).to eq 'Test gist qna'
+    end
+  end
 end
