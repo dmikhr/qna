@@ -1,0 +1,10 @@
+= form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+  = f.label :title, 'Question title'
+  = f.text_field :title
+  = f.label :body, 'Question body'
+  = f.text_area :body
+  = f.label :files
+  = f.file_field :files, multiple: true, direct_upload: true
+  = f.submit 'Save question'
+
+  = render 'shared/edit_files', resource: question
