@@ -73,7 +73,7 @@ feature 'User can add links to question', %q{
       fill_in 'Url', with: url
 
       click_on 'add link'
-  
+
       page.all('.nested-fields')[1].fill_in 'Link name', with: 'My link 2'
       page.all('.nested-fields')[1].fill_in 'Url', with: url2
 

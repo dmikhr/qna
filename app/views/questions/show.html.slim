@@ -7,11 +7,7 @@ p= @question.body
 .links
   p Links:
   ul
-    - @question.links.each do |link|
-      - if link.gist_link?
-        p= link.gist_contents
-      - else
-        li= link_to link.name, link.url
+    =render 'shared/links_list', resource: @question
 
 .answers
   = render @question.answers
