@@ -3,6 +3,8 @@
   = f.text_area :body
   = f.label :files
   = f.file_field :files, multiple: true, direct_upload: true
-  = f.submit 'Save'
 
   = render 'shared/edit_files', resource: answer
+  = render 'shared/cocoon_links', f: f
+
+  = f.submit 'Save'

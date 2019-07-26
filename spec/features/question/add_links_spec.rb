@@ -10,6 +10,8 @@ feature 'User can add links to question', %q{
   given(:url) { 'https://edgeguides.rubyonrails.org/active_storage_overview.html' }
   given(:url2) { 'https://github.com/nathanvda/cocoon' }
   given(:gist_url) { 'https://gist.github.com/dmikhr/c7d219d8532bb4f55f53c57aefb1200f' }
+  given!(:question) { create(:question, user: user) }
+  given!(:link) { create(:link, linkable: question) }
 
   describe 'User adds link when asks question', js: true do
     scenario 'with valid url' do
@@ -62,7 +64,7 @@ feature 'User can add links to question', %q{
   end
 
   describe 'User asks question', js: true do
-    scenario 'adding multiple links' do
+    scenario 'and adds multiple links' do
       sign_in(user)
       visit new_question_path
 

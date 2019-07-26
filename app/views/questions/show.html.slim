@@ -5,9 +5,7 @@ p= @question.body
   p= link_to file.filename.to_s, url_for(file)
 
 .links
-  p Links:
-  ul
-    =render 'shared/links_list', resource: @question
+  = render 'shared/links_list', resource: @question
 
 .answers
   = render @question.answers

@@ -4,9 +4,7 @@
     p= answer.body
     = render 'shared/files_list', resource: answer
     .links
-      p Links:
-      ul
-        =render 'shared/links_list', resource: answer
+      = render 'shared/links_list', resource: answer
     - if show_select_best_option?(answer)
         p= link_to 'Select as best', select_best_answer_path(answer), remote: true, class: 'select-best', method: :patch
     - if current_user&.author_of?(answer)

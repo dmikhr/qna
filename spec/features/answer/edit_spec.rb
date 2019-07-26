@@ -25,9 +25,9 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'edits his answer' do
-      click_on 'Edit'
-
       within "div#answer_id_#{answer.id}" do
+        click_on 'Edit'
+
         fill_in 'Your answer', with: 'edited answer'
         click_on 'Save'
 
@@ -38,9 +38,9 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'edits his answer with errors' do
-      click_on 'Edit'
-
       within "div#answer_id_#{answer.id}" do
+        click_on 'Edit'
+
         fill_in 'Your answer', with: ''
         click_on 'Save'
         expect(page).to have_content "Body can't be blank"
@@ -48,14 +48,29 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'add files to his edited answer' do
-      click_on 'Edit'
-
       within "div#answer_id_#{answer.id}" do
+        click_on 'Edit'
+
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'add link while editing answer' do
+      within "div#answer_id_#{answer.id}" do
+        click_on 'Edit'
+
+        click_on 'add link'
+
+        fill_in 'Link name', with: 'My link 2'
+        fill_in 'Url', with: 'https://2nd-url.com/page'
+
+        click_on 'Save'
+
+        expect(page).to have_link 'My link 2', href: 'https://2nd-url.com/page', visible: false
       end
     end
   end

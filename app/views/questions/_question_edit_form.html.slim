@@ -5,6 +5,10 @@
   = f.text_area :body
   = f.label :files
   = f.file_field :files, multiple: true, direct_upload: true
-  = f.submit 'Save question'
 
   = render 'shared/edit_files', resource: question
+  = render 'shared/links_list', resource: question
+
+  = render 'shared/cocoon_links', f: f
+
+  = f.submit 'Save question'
