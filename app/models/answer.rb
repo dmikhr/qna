@@ -18,6 +18,7 @@ class Answer < ApplicationRecord
     Answer.transaction do
       question.answers.where(best: true).update_all(best: false)
       update!(best: true)
+      RewardService.new(user, question).call
     end
   end
 

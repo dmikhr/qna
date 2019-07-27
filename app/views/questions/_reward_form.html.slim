@@ -1,0 +1,9 @@
+p Reward:
+#reward
+  = f.fields_for :reward do |r|
+    p
+      = r.label :name, 'Reward name'
+      = r.text_field :name
+    p
+      = r.label :picture
+      = r.file_field :picture

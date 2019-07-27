@@ -11,11 +11,8 @@
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
 
-  p Links:
-  #links
-    = f.fields_for :links do |l|
-      = render 'shared/link_fields', f: l
-    .add_link
-      = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+  = render 'shared/add_links', f: f
+
+  = render 'reward_form', f: f
 
   p= f.submit 'Ask'

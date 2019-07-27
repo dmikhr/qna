@@ -4,6 +4,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question_id: question.id, user: user) }
+  let!(:reward) { create(:reward, rewardable: question) }
 
   describe 'GET #new' do
     before { login(user) }

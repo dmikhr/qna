@@ -17,6 +17,7 @@ RSpec.describe Answer, type: :model do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:answers) { create_list(:answer, 5, question: question, user: user) }
+    let!(:reward) { create(:reward, rewardable: question) }
 
     it 'select answer as best' do
       expect{ answers[-1].select_best }.to change{ answers[-1].best }.from(false).to(true)

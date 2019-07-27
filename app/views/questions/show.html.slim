@@ -12,7 +12,7 @@ p= @question.body
 
 - if current_user.present?
     p Write answer to the question
-    =render 'questions/answer_form'
+    = render 'questions/answer_form'
 - else
     p
       = link_to 'Log In', new_user_session_path
