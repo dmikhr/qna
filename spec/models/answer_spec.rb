@@ -15,8 +15,10 @@ RSpec.describe Answer, type: :model do
 
   describe 'select_best method' do
     let(:user) { create(:user) }
+    let(:user_rewarded) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:answers) { create_list(:answer, 5, question: question, user: user) }
+    let(:answer_best) { create(:answer, question: question, user: user_rewarded) }
     let!(:reward) { create(:reward, rewardable: question) }
 
     it 'select answer as best' do
@@ -47,6 +49,12 @@ RSpec.describe Answer, type: :model do
         answers[0].reload
         answers[-1].reload
       end.to change{ answers[-1].best }.from(true).to(false)
+    end
+
+    it 'set reward to author of an answer' do
+      expect(question.reward.user).to eq nil
+      answer_best.select_best
+      expect(question.reward.user).to eq user_rewarded
     end
   end
 
