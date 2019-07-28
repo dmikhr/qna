@@ -14,15 +14,11 @@ class Link < ApplicationRecord
   end
 
   def gist_contents
-    # запрашиваем gist при первом обращении, потом достаем из базы
-    # чтобы ускорить загрузку страниц с gist и уменьшить число api запросов
-    if gist_text.nil?
-      contents = GistService.new(gist_id).call
-      update(gist_text: contents)
-      contents
-    else
-      gist_text
-    end
+    return gist_text unless gist_text.nil?
+
+    contents = GistService.new.call(gist_id)
+    update(gist_text: contents)
+    contents
   end
 
   private

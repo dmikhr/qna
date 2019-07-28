@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     @question.user = current_user
-    @question.reward.present? ? reward = ' Reward was set.' : reward = ''
+    reward = @question.reward.present? ? ' Reward was set.' : ''
     if @question.save
       redirect_to @question, notice: "Your question successfully created.#{reward}"
     else

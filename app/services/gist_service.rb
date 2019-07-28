@@ -1,14 +1,10 @@
 # based on GistQuestionService from test-guru project
 class GistService
-  def initialize(gist_id, client = octokit_client)
-    @client = client
-    @gist_id = gist_id
-  end
 
-  def call
+  def call(gist_id, client = octokit_client)
     begin
-      gist = @client.gist(@gist_id)
-      @result = gist.files.first[1][:content]
+      gist = client.gist(gist_id)
+      gist.files.first[1][:content]
     rescue Octokit::NotFound
       false
     end
