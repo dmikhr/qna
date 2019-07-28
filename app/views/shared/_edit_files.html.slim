@@ -1,0 +1,4 @@
+- resource.files.each do |file|
+  div id="edit_file_id_#{file.id}"
+    p= link_to file.filename.to_s, url_for(file)
+    p= link_to 'Delete file', file_path(file), remote: true, method: :delete

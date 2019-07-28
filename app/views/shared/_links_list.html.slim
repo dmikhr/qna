@@ -1,0 +1,12 @@
+- if resource.links.any?
+  p Links:
+  ul
+    - resource.links.each do |link|
+      - if link.persisted?
+        div id="link_id_#{link.id}"
+          - if link.gist_link?
+            li= link.gist_contents
+          - else
+            li= link_to link.name, link.url
+          -if current_user&.author_of?(link.linkable)
+            p= link_to 'Delete link', link_path(link), remote: true, method: :delete

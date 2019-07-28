@@ -8,13 +8,16 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.links.new
+    @question.reward = Reward.new
   end
 
   def create
     @question = Question.new(question_params)
     @question.user = current_user
+    reward = @question.reward.present? ? ' Reward was set.' : ''
     if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
+      redirect_to @question, notice: "Your question successfully created.#{reward}"
     else
       render :new
     end
@@ -22,6 +25,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answer.links.new
   end
 
   def destroy
@@ -36,7 +40,9 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body,
+                                      files: [], links_attributes: [:name, :url, :_destroy],
+                                      reward_attributes: [:name, :picture])
   end
 
   def load_question

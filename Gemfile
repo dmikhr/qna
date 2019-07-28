@@ -39,6 +39,11 @@ gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
 
+# GITHUB
+gem "octokit", "~> 4.0"
+
+gem "cocoon"
+
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails', groups: [:development, :test]
 

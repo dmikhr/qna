@@ -4,12 +4,15 @@ p= @question.body
 - @question.files.each do |file|
   p= link_to file.filename.to_s, url_for(file)
 
+.links
+  = render 'shared/links_list', resource: @question
+
 .answers
   = render @question.answers
 
 - if current_user.present?
     p Write answer to the question
-    =render 'questions/answer_form'
+    = render 'questions/answer_form'
 - else
     p
       = link_to 'Log In', new_user_session_path

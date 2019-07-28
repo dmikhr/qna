@@ -66,6 +66,21 @@ feature 'User can edit his question', %q{
         expect(page).to have_link 'spec_helper.rb'
       end
     end
+
+    scenario 'add link while editing question' do
+      within "div#question_id_#{question.id}" do
+        click_on 'Edit question'
+
+        click_on 'add link'
+
+        fill_in 'Link name', with: 'My link 2'
+        fill_in 'Url', with: 'https://2nd-url.com/page'
+
+        click_on 'Save question'
+
+        expect(page).to have_link 'My link 2', href: 'https://2nd-url.com/page', visible: false
+      end
+    end
   end
 
   scenario "tries to edit other user's question" do
