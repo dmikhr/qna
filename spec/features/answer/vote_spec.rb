@@ -12,8 +12,10 @@ feature 'User can vote for an answer', %q{
   given!(:answers) { create_list(:answer, 2, question: question, user: author) }
 
   describe 'User', js: true do
+
+    background { sign_in(user_voter) }
+
     scenario 'upvotes for answer' do
-      sign_in(user_voter)
       visit question_path(question)
 
       within "div#vote_answer_id_#{answers[0].id}" do
@@ -23,7 +25,6 @@ feature 'User can vote for an answer', %q{
     end
 
     scenario 'downvotes for answer' do
-      sign_in(user_voter)
       visit question_path(question)
 
       within "div#vote_answer_id_#{answers[0].id}" do
@@ -33,7 +34,6 @@ feature 'User can vote for an answer', %q{
     end
 
     scenario 'cancels his vote' do
-      sign_in(user_voter)
       visit question_path(question)
 
       within "div#vote_answer_id_#{answers[0].id}" do
@@ -44,13 +44,68 @@ feature 'User can vote for an answer', %q{
     end
 
     scenario 'changes vote to opposite' do
-      sign_in(user_voter)
       visit question_path(question)
 
       within "div#vote_answer_id_#{answers[0].id}" do
         click_on 'Downvote'
         click_on 'Upvote'
         expect(page).to have_content 'Rating 1'
+      end
+    end
+  end
+
+  describe 'Author tries to', js: true do
+
+    background { sign_in(author) }
+
+    scenario 'upvotes for answer' do
+      visit question_path(question)
+
+      within "div#answer_id_#{answers[0].id}" do
+        expect(page).to_not have_content 'Upvote'
+      end
+    end
+
+    scenario 'downvotes for answer' do
+      visit question_path(question)
+
+      within "div#answer_id_#{answers[0].id}" do
+        expect(page).to_not have_content 'Downvote'
+      end
+    end
+
+    scenario 'cancels his vote' do
+      visit question_path(question)
+
+      within "div#answer_id_#{answers[0].id}" do
+        expect(page).to_not have_content 'Cancel vote'
+      end
+    end
+  end
+
+  describe 'Unauthorized user tries to', js: true do
+
+    scenario 'upvotes for answer' do
+      visit question_path(question)
+
+      within "div#answer_id_#{answers[0].id}" do
+        expect(page).to_not have_content 'Upvote'
+      end
+    end
+
+    scenario 'downvotes for answer' do
+      visit question_path(question)
+
+      within "div#answer_id_#{answers[0].id}" do
+        expect(page).to_not have_content 'Downvote'
+      end
+    end
+
+    scenario 'cancels his vote' do
+      visit question_path(question)
+
+      within "div#answer_id_#{answers[0].id}" do
+        expect(page).to_not have_content 'Cancel vote'
       end
     end
   end
