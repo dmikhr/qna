@@ -22,7 +22,7 @@ shared_examples_for 'voted' do
         expect { patch :upvote, params: { id: votable, format: :json } }.to_not change{ votable.score }
       end
 
-      it 'empty response' do
+      it 'error response' do
         patch :upvote, params: { id: votable, format: :json }
         expect(response.status).to eq 403
         expect(JSON.parse(response.body)["message"]).to include "Author or unauthorized user can't vote"
@@ -63,7 +63,7 @@ shared_examples_for 'voted' do
         expect { patch :downvote, params: { id: votable, format: :json } }.to_not change{ votable.score }
       end
 
-      it 'empty response' do
+      it 'error response' do
         patch :downvote, params: { id: votable, format: :json }
         expect(response.status).to eq 403
         expect(JSON.parse(response.body)["message"]).to include "Author or unauthorized user can't vote"
@@ -106,7 +106,7 @@ shared_examples_for 'voted' do
         expect { patch :cancel_vote, params: { id: votable, format: :json } }.to_not change{ votable.score }
       end
 
-      it 'empty response' do
+      it 'error response' do
         patch :cancel_vote, params: { id: votable, format: :json }
         expect(response.status).to eq 403
         expect(JSON.parse(response.body)["message"]).to include "Author or unauthorized user can't vote"
