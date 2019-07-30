@@ -16,7 +16,7 @@ module Votable
     votes.create(value: DOWNVOTE_VALUE, user: user) if can_vote?(DOWNVOTE_VALUE)
   end
 
-  def cancel_previous_vote
+  def cancel_vote
     votes.where(user: user).destroy_all
   end
 
@@ -31,7 +31,7 @@ module Votable
     return false if votes.where(user: user).first == value
     # если пользователь до этого дал противоположную оценку текущей, то
     # отменяем предыдущую оценку
-    cancel_previous_vote
+    cancel_vote
   end
 
 end

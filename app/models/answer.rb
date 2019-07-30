@@ -1,4 +1,5 @@
 class Answer < ApplicationRecord
+  include Votable
 
   # new answers are below older, best is on the top
   default_scope { order(best: :desc).order(created_at: :asc) }

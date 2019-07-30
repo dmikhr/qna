@@ -15,7 +15,7 @@ feature 'User can delete links from question', %q{
     sign_in(author_user)
     visit question_path(question)
     expect(page).to have_link link.name, href: link.url
-    # save_and_open_screenshot
+
     within "div#link_id_#{link.id}" do
       click_on 'Delete link'
     end

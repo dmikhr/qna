@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 shared_examples_for 'votable' do
-
   context 'user' do
     it 'upvotes' do
       expect{ votable.upvote }.to change{ votable.score }.by(1)
@@ -14,7 +13,7 @@ shared_examples_for 'votable' do
     it 'cancel vote' do
       expect do
         votable.downvote
-        votable.cancel_previous_vote
+        votable.cancel_vote
       end.to_not change{ votable.score }
     end
 
