@@ -11,7 +11,7 @@ shared_examples_for 'voted' do
 
       it 'returns data in json' do
         patch :upvote, params: { id: votable, format: :json }
-        expect(JSON.parse(response.body).size).to be > 0
+        expect(JSON.parse(response.body).keys).to eq ["item_name", "item_id", "score"]
       end
     end
 
@@ -52,7 +52,7 @@ shared_examples_for 'voted' do
 
       it 'returns data in json' do
         patch :downvote, params: { id: votable, format: :json }
-        expect(JSON.parse(response.body).size).to be > 0
+        expect(JSON.parse(response.body).keys).to eq ["item_name", "item_id", "score"]
       end
     end
 
@@ -94,7 +94,7 @@ shared_examples_for 'voted' do
 
       it 'returns data in json' do
         patch :cancel_vote, params: { id: votable, format: :json }
-        expect(JSON.parse(response.body).size).to be > 0
+        expect(JSON.parse(response.body).keys).to eq ["item_name", "item_id", "score"]
       end
     end
 
