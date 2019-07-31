@@ -1,6 +1,4 @@
 module Votable
-  UPVOTE_VALUE = 1
-  DOWNVOTE_VALUE = -1
 
   extend ActiveSupport::Concern
 
@@ -8,12 +6,29 @@ module Votable
     has_many :votes, dependent: :destroy, as: :votable
   end
 
+  # убрал cancel_vote из can_vote? и сам этот метод
+  # но cancel_vote все равно нужен в upvote и downvote, чтобы реализовать случай, когда
+  # пользователь меняет голос на противоположный
+  # сценарий: пользователь проголосовал за, потом решил проголосовать против.
+  # В таком случае валидация на уникальность не даст так сделать, т.к. юзер уже голосовал, значит
+  # нужно сначала отменить старый голос, для этого используется cancel_vote в методах upvote и downvote
+
   def upvote
-    votes.create(value: UPVOTE_VALUE, user: user) if can_vote?(UPVOTE_VALUE)
+    cancel_vote
+    begin
+      votes.create!(value: 1, user: user)
+    rescue ActiveRecord::RecordInvalid
+      false
+    end
   end
 
   def downvote
-    votes.create(value: DOWNVOTE_VALUE, user: user) if can_vote?(DOWNVOTE_VALUE)
+    cancel_vote
+    begin
+      votes.create!(value: -1, user: user)
+    rescue ActiveRecord::RecordInvalid
+      false
+    end
   end
 
   def cancel_vote
@@ -23,15 +38,4 @@ module Votable
   def score
     votes.sum(:value)
   end
-
-  private
-
-  def can_vote?(value)
-    # пользователь не может проголосовать одинаково больше 1 раза
-    return false if votes.where(user: user).first == value
-    # если пользователь до этого дал противоположную оценку текущей, то
-    # отменяем предыдущую оценку
-    cancel_vote
-  end
-
 end

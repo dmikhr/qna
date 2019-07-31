@@ -52,6 +52,26 @@ feature 'User can vote for an answer', %q{
         expect(page).to have_content 'Rating 1'
       end
     end
+
+    scenario 'tries to upvote twice' do
+      visit question_path(question)
+
+      within "div#vote_answer_id_#{answers[0].id}" do
+        click_on 'Upvote'
+        click_on 'Upvote'
+        expect(page).to have_content 'Rating 1'
+      end
+    end
+
+    scenario 'tries to downvote twice' do
+      visit question_path(question)
+
+      within "div#vote_answer_id_#{answers[0].id}" do
+        click_on 'Downvote'
+        click_on 'Downvote'
+        expect(page).to have_content 'Rating -1'
+      end
+    end
   end
 
   describe 'Author tries to', js: true do

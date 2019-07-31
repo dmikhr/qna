@@ -40,10 +40,10 @@ shared_examples_for 'votable' do
   end
 
   context 'users' do
-    let!(:upvote1) { create(:vote, user: user, votable: votable, value: Votable::UPVOTE_VALUE) }
-    let!(:upvote2) { create(:vote, user: user2, votable: votable, value: Votable::UPVOTE_VALUE) }
-    let!(:downvote1) { create(:vote, user: user, votable: votable_down, value: Votable::DOWNVOTE_VALUE) }
-    let!(:downvote2) { create(:vote, user: user2, votable: votable_down, value: Votable::DOWNVOTE_VALUE) }
+    let!(:upvote1) { create(:vote, user: user, votable: votable, value: 1) }
+    let!(:upvote2) { create(:vote, user: user2, votable: votable, value: 1) }
+    let!(:downvote1) { create(:vote, user: user, votable: votable_down, value: -1) }
+    let!(:downvote2) { create(:vote, user: user2, votable: votable_down, value: -1) }
 
     it 'upvote' do
       expect(votable.score).to eq 2
