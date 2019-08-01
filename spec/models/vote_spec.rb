@@ -12,8 +12,11 @@ RSpec.describe Vote, type: :model do
 
   describe 'uniqueness of user scoped to votable' do
     let(:user) { create(:user) }
-    let(:votable) { create(:question, user: user) }
-    let!(:upvote1) { create(:vote, user: user, votable: votable, value: 1) }
-    it { should validate_uniqueness_of(:user).scoped_to(:votable_id) }
+    let(:votable_question) { create(:question, id: 1, user: user) }
+    let(:votable_answer) { create(:answer, id: 1, question: votable_question, user: user) }
+    let!(:upvote_question) { create(:vote, user: user, votable: votable_question, value: 1) }
+    let!(:upvote_answer) { create(:vote, user: user, votable: votable_answer, value: 1) }
+
+    it { should validate_uniqueness_of(:user).scoped_to([:votable_id, :votable_type]) }
   end
 end
