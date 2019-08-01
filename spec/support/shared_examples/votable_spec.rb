@@ -34,6 +34,7 @@ shared_examples_for 'votable' do
     it 'changes vote to opposite' do
       expect do
         votable.upvote
+        votable.cancel_vote
         votable.downvote
       end.to change{ votable.score }.by(-1)
     end

@@ -47,6 +47,7 @@ feature 'User can vote for a question', %q{
 
       within "div#vote_question_id_#{question.id}" do
         click_on 'Downvote'
+        click_on 'Cancel vote'
         click_on 'Upvote'
         expect(page).to have_content 'Rating 1'
       end
