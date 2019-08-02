@@ -26,19 +26,15 @@ module Voted
   private
 
   def render_errors
-    render json: Hash[:message, "Author or unauthorized user can't vote"], status: :forbidden
+    render json: { message: "Author or unauthorized user can't vote" }, status: :forbidden
   end
 
   def render_json
-    render json: Hash[:item_name, item_name, :item_id, @votable.id, :score, @votable.score]
+    render json: { item_name: item_name, item_id: @votable.id, score: @votable.score }
   end
 
   def item_name
     @votable.class.name.underscore
-  end
-
-  def controller_name
-    params.require(:controller)
   end
 
   def votable_id
