@@ -2,6 +2,8 @@
   div id="answer_id_#{answer.id}"
     span id="errors_answer_id_#{answer.id}"
     p= answer.body
+    - if can_vote?(answer)
+      = render 'shared/vote', resource: answer
     = render 'shared/files_list', resource: answer
     .links
       = render 'shared/links_list', resource: answer

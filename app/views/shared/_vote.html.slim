@@ -1,0 +1,10 @@
+.vote
+  div id=vote_item_id(resource)
+    span id="score_#{vote_item_id(resource)}"
+      p= "Rating #{resource.score}"
+    | &nbsp;
+    = link_to 'Upvote', polymorphic_url([:upvote, resource]), method: :patch, data: { type: :json }, remote: true
+    | &nbsp;
+    = link_to 'Cancel vote', polymorphic_url([:cancel_vote, resource]), method: :patch, data: { type: :json }, remote: true
+    | &nbsp;
+    = link_to 'Downvote', polymorphic_url([:downvote, resource]), method: :patch, data: { type: :json }, remote: true

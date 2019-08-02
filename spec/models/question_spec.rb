@@ -4,6 +4,9 @@ RSpec.describe Question, type: :model do
   it { should have_db_column(:title).of_type(:string) }
   it { should have_db_column(:body).of_type(:text) }
 
+
+  it { should have_many(:votes) }
+
   it { should belong_to :user }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
@@ -20,5 +23,12 @@ RSpec.describe Question, type: :model do
 
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  it_behaves_like 'votable' do
+    let(:user) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:votable) { create(:question, user: user) }
+    let(:votable_down) { create(:question, user: user) }
   end
 end
