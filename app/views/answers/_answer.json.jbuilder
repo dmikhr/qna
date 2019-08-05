@@ -8,3 +8,11 @@ json.set! :answer do
   json.set! :vote_item_id, vote_item_id(answer)
   json.set! :score, answer.score
 end
+
+json.links answer.links do |link|
+  json.id link.id
+  json.name link.name
+  json.url link.url
+  json.gist_contents link.gist_contents
+  json.gist_link link.gist_link?
+end

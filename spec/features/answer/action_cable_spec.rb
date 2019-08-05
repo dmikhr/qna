@@ -9,6 +9,8 @@ feature 'User can see new answers in real time', %q{
   given(:author) { create(:user) }
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
+  given(:url) { 'https://edgeguides.rubyonrails.org/active_storage_overview.html' }
+  given(:gist_url) { 'https://gist.github.com/dmikhr/c7d219d8532bb4f55f53c57aefb1200f' }
 
   describe 'Three users', js: true do
     scenario 'author posts answer, user and guest instantly see new answer' do
@@ -28,6 +30,15 @@ feature 'User can see new answers in real time', %q{
 
       Capybara.using_session('author') do
         fill_in 'Body', with: 'This is answer to the question'
+
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: url
+
+        click_on 'add link'
+
+        page.all('.nested-fields')[1].fill_in 'Link name', with: 'My gist'
+        page.all('.nested-fields')[1].fill_in 'Url', with: gist_url
+
         click_on 'Write Answer'
 
         expect(current_path).to eq question_path(question)
@@ -39,6 +50,10 @@ feature 'User can see new answers in real time', %q{
           expect(page).to_not have_content 'Upvote'
           expect(page).to_not have_content 'Cancel vote'
           expect(page).to_not have_content 'Downvote'
+
+          expect(page).to have_link 'My link', href: url
+          expect(page).to_not have_link 'My gist', href: gist_url
+          expect(page).to have_content 'Test gist qna'
         end
       end
 
@@ -51,6 +66,10 @@ feature 'User can see new answers in real time', %q{
           expect(page).to have_content 'Upvote'
           expect(page).to have_content 'Cancel vote'
           expect(page).to have_content 'Downvote'
+
+          expect(page).to have_link 'My link', href: url
+          expect(page).to_not have_link 'My gist', href: gist_url
+          expect(page).to have_content 'Test gist qna'
         end
       end
 
@@ -62,6 +81,10 @@ feature 'User can see new answers in real time', %q{
           expect(page).to_not have_content 'Upvote'
           expect(page).to_not have_content 'Cancel vote'
           expect(page).to_not have_content 'Downvote'
+
+          expect(page).to have_link 'My link', href: url
+          expect(page).to_not have_link 'My gist', href: gist_url
+          expect(page).to have_content 'Test gist qna'
         end
       end
     end

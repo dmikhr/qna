@@ -7,6 +7,7 @@ $(document).on "turbolinks:load", ->
     received: (data) ->
       data = JSON.parse(data)
       answer = data['answer']
+      links = data['links']
       # чтобы у автора ответ не добавился 2-ой раз
       if gon.current_user_id isnt answer.user_id
-        $('.answers').append JST['templates/answer'](answer: answer)
+        $('.answers').append JST['templates/answer'](answer: answer, links: links)
