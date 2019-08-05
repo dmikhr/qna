@@ -39,6 +39,8 @@ feature 'User can see new answers in real time', %q{
         page.all('.nested-fields')[1].fill_in 'Link name', with: 'My gist'
         page.all('.nested-fields')[1].fill_in 'Url', with: gist_url
 
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
         click_on 'Write Answer'
 
         expect(current_path).to eq question_path(question)
@@ -54,6 +56,9 @@ feature 'User can see new answers in real time', %q{
           expect(page).to have_link 'My link', href: url
           expect(page).to_not have_link 'My gist', href: gist_url
           expect(page).to have_content 'Test gist qna'
+
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
         end
       end
 
@@ -70,6 +75,9 @@ feature 'User can see new answers in real time', %q{
           expect(page).to have_link 'My link', href: url
           expect(page).to_not have_link 'My gist', href: gist_url
           expect(page).to have_content 'Test gist qna'
+
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
         end
       end
 
@@ -85,6 +93,9 @@ feature 'User can see new answers in real time', %q{
           expect(page).to have_link 'My link', href: url
           expect(page).to_not have_link 'My gist', href: gist_url
           expect(page).to have_content 'Test gist qna'
+
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
         end
       end
     end

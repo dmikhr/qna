@@ -16,3 +16,9 @@ json.links answer.links do |link|
   json.gist_contents link.gist_contents
   json.gist_link link.gist_link?
 end
+
+json.files answer.files do |file|
+  json.id file.id
+  json.filename file.filename.to_s
+  json.url url_for(file)
+end

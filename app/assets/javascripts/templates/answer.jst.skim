@@ -1,13 +1,18 @@
 div id="answer_id_#{@answer.id}"
   p= @answer.body
-  - for link in @links
-    div id="link_id_#{link.id}"
-      ul
-        - if link.gist_link
-          li= link.gist_contents
-        - else
-          li
-            a href=link.url = link.name
+  - for file in @files
+    div id="file_id_#{file.id}"
+      p
+        a href=file.url = file.filename
+  .links
+    ul
+    - for link in @links
+      div id="link_id_#{link.id}"
+          - if link.gist_link
+            li= link.gist_contents
+          - else
+            li
+              a href=link.url = link.name
   - if gon.current_user_id && gon.current_user_id == gon.question_author_id && @answer.best == false
     a href=@answer.select_best_answer_path class='select-best' data-method="patch" data-remote="true" Select as best
   - if gon.current_user_id && gon.current_user_id != @answer.user_id
