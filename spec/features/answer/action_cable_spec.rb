@@ -33,18 +33,35 @@ feature 'User can see new answers in real time', %q{
         expect(current_path).to eq question_path(question)
         within '.answers' do
           expect(page).to have_content('This is answer to the question', count: 1)
+
+          expect(page).to_not have_content 'Select as best'
+
+          expect(page).to_not have_content 'Upvote'
+          expect(page).to_not have_content 'Cancel vote'
+          expect(page).to_not have_content 'Downvote'
         end
       end
 
       Capybara.using_session('user') do
         within '.answers' do
           expect(page).to have_content('This is answer to the question', count: 1)
+
+          expect(page).to have_content 'Select as best'
+
+          expect(page).to have_content 'Upvote'
+          expect(page).to have_content 'Cancel vote'
+          expect(page).to have_content 'Downvote'
         end
       end
 
       Capybara.using_session('guest') do
         within '.answers' do
           expect(page).to have_content('This is answer to the question', count: 1)
+          expect(page).to_not have_content 'Select as best'
+
+          expect(page).to_not have_content 'Upvote'
+          expect(page).to_not have_content 'Cancel vote'
+          expect(page).to_not have_content 'Downvote'
         end
       end
     end

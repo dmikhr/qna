@@ -32,6 +32,7 @@ class QuestionsController < ApplicationController
     @answer.links.new
     gon.question_id = @question.id
     gon.current_user_id = current_user&.id
+    gon.question_author_id = @question.user_id
   end
 
   def destroy
