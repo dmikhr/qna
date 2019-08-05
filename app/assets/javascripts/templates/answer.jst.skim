@@ -1,0 +1,2 @@
+div id="answer_id_#{@answer.id}"
+  p= @answer.body

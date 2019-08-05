@@ -34,11 +34,11 @@ feature 'User can see new questions in real time', %q{
       end
 
       Capybara.using_session('user') do
-        expect(page).to have_content 'Action Cable question'
+        expect(page).to have_content('Action Cable question', count: 1)
       end
 
       Capybara.using_session('guest') do
-        expect(page).to have_content 'Action Cable question'
+        expect(page).to have_content('Action Cable question', count: 1)
       end
     end
   end

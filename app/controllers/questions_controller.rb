@@ -30,6 +30,8 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.links.new
+    gon.question_id = @question.id
+    gon.current_user_id = current_user&.id
   end
 
   def destroy
