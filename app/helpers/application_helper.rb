@@ -6,4 +6,8 @@ module ApplicationHelper
   def can_vote?(item)
     return true if !(current_user&.author_of?(item) || current_user.nil?)
   end
+
+  def commentable_label(commentable)
+    "#{commentable.class.name.downcase}_#{commentable.id}"
+  end
 end

@@ -29,19 +29,21 @@ feature 'User can see new answers in real time', %q{
       end
 
       Capybara.using_session('author') do
-        fill_in 'Body', with: 'This is answer to the question'
+        within '.add-answer' do
+          fill_in 'Body', with: 'This is answer to the question'
 
-        fill_in 'Link name', with: 'My link'
-        fill_in 'Url', with: url
+          fill_in 'Link name', with: 'My link'
+          fill_in 'Url', with: url
 
-        click_on 'add link'
+          click_on 'add link'
 
-        page.all('.nested-fields')[1].fill_in 'Link name', with: 'My gist'
-        page.all('.nested-fields')[1].fill_in 'Url', with: gist_url
+          page.all('.nested-fields')[1].fill_in 'Link name', with: 'My gist'
+          page.all('.nested-fields')[1].fill_in 'Url', with: gist_url
 
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
-        click_on 'Write Answer'
+          click_on 'Write Answer'
+        end
 
         expect(current_path).to eq question_path(question)
         within '.answers' do

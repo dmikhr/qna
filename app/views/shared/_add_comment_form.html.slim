@@ -1,0 +1,9 @@
+div id="comment_errors_#{commentable_label(commentable)}"
+  = render 'shared/errors', resource: @comment
+
+= form_with model: [commentable, commentable.comments.new], class: 'new-comment' do |f|
+  p
+    = f.label :body
+    = f.text_area :body
+
+  p= f.submit 'Add comment'
