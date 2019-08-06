@@ -102,4 +102,47 @@ feature 'User can see new answers in real time', %q{
       end
     end
   end
+
+  describe 'Comments', js: true do
+    given!(:answer) { create(:answer, question: question, user: user) }
+    scenario 'one user posts comment, another instantly see it' do
+      Capybara.using_session('author') do
+        sign_in(author)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('author') do
+        within "div#answer_id_#{answer.id}" do
+          within ".add-comment-answer" do
+            fill_in 'Body', with: 'This is comment to the answer'
+            click_on 'Add comment'
+          end
+        end
+        within ".answer-comments" do
+          expect(page).to have_content('This is comment to the answer', count: 1)
+        end
+      end
+
+      Capybara.using_session('user') do
+        within "div#answer_id_#{answer.id}" do
+          expect(page).to have_content('This is comment to the answer', count: 1)
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within "div#answer_id_#{answer.id}" do
+          expect(page).to have_content('This is comment to the answer', count: 1)
+        end
+      end
+    end
+  end
 end

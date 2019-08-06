@@ -15,13 +15,13 @@ feature 'User can submit comment to an answer' do
 
       within "div#answer_id_#{answer.id}" do
         within ".add-comment-answer" do
-          fill_in 'Body', with: 'This is comment to the question'
+          fill_in 'Body', with: 'This is comment to the answer'
           click_on 'Add comment'
         end
       end
 
       within ".answer-comments" do
-        expect(page).to have_content 'This is comment to the question'
+        expect(page).to have_content 'This is comment to the answer'
       end
     end
 
