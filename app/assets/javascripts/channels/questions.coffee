@@ -5,4 +5,5 @@ $(document).on "turbolinks:load", ->
       @perform 'follow'
 
     received: (data) ->
-      $('.questions').append JST['templates/question'](question: JSON.parse(data)['question'])
+      question = JSON.parse(data)['question']
+      $('.questions').append JST['templates/question'](question: question)

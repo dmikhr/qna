@@ -34,8 +34,8 @@ class CommentsController < ApplicationController
     allowed_commentables = %w[question answer]
     commentable_name = allowed_commentables.filter{ |commentable| params.keys.include?("#{commentable}_id") }
     if commentable_name.size > 0
-      commentable_class = commentable_name[0].capitalize.constantize
-      @commentable = commentable_class.find(params["#{commentable_name[0]}_id".to_sym])
+      commentable_klass = commentable_name[0].capitalize.constantize
+      @commentable = commentable_klass.find(params["#{commentable_name[0]}_id".to_sym])
     end
   end
 end

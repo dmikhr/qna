@@ -37,8 +37,10 @@ feature 'User can see new answers in real time', %q{
 
           click_on 'add link'
 
-          page.all('.nested-fields')[1].fill_in 'Link name', with: 'My gist'
-          page.all('.nested-fields')[1].fill_in 'Url', with: gist_url
+          within page.all('.nested-fields')[1] do
+            fill_in 'Link name', with: 'My gist'
+            fill_in 'Url', with: gist_url
+          end
 
           attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 

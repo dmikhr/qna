@@ -1,6 +1,4 @@
 div id="comments_#{commentable_label(resource)}"
   - if resource.comments.any?
     p Comments:
-    - resource.comments.each do |comment|
-      div id="comment_id_#{comment.id}"
-        p= comment.body
+    = render resource.comments

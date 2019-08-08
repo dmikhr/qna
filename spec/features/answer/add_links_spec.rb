@@ -83,8 +83,10 @@ feature 'User can add links to answer', %q{
 
         click_on 'add link'
 
-        page.all('.nested-fields')[1].fill_in 'Link name', with: 'My link 2'
-        page.all('.nested-fields')[1].fill_in 'Url', with: url2
+        within page.all('.nested-fields')[1] do
+          fill_in 'Link name', with: 'My link 2'
+          fill_in 'Url', with: url2
+        end
 
         click_on 'Write Answer'
       end

@@ -6,9 +6,10 @@ RSpec.describe CommentsController, type: :controller do
   let(:answer) { create(:answer, question: question, user: user) }
 
   describe 'Comment POST #create for question' do
-    before { login(user) }
 
     context 'with valid attributes' do
+      before { login(user) }
+
       it 'assigns comment to current user' do
         post :create, params: { question_id: question.id, comment: attributes_for(:comment) }, format: :js
         expect(assigns(:comment).user_id).to eq(user.id)
@@ -25,6 +26,8 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      before { login(user) }
+
       it 'does not save the comment' do
         expect { post :create, params: { question_id: question.id, comment: attributes_for(:comment, :invalid_comment), format: :js } }.to_not change(question.comments, :count)
       end
@@ -34,12 +37,19 @@ RSpec.describe CommentsController, type: :controller do
         expect(response).to render_template :create
       end
     end
+
+    context 'Unauthorized user' do
+      it 'tries to add comment' do
+        expect { post :create, params: { question_id: question.id, comment: attributes_for(:comment), format: :js } }.to_not change(question.comments, :count)
+      end
+    end
   end
 
   describe 'Comment POST #create for answer' do
-    before { login(user) }
 
     context 'with valid attributes' do
+      before { login(user) }
+
       it 'assigns comment to current user' do
         post :create, params: { answer_id: answer.id, comment: attributes_for(:comment) }, format: :js
         expect(assigns(:comment).user_id).to eq(user.id)
@@ -56,6 +66,8 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      before { login(user) }
+
       it 'does not save the comment' do
         expect { post :create, params: { answer_id: answer.id, comment: attributes_for(:comment, :invalid_comment), format: :js } }.to_not change(question.comments, :count)
       end
@@ -63,6 +75,12 @@ RSpec.describe CommentsController, type: :controller do
       it 'renders create view' do
         post :create, params: { answer_id: answer.id, comment: attributes_for(:comment, :invalid_comment), format: :js }
         expect(response).to render_template :create
+      end
+    end
+
+    context 'Unauthorized user' do
+      it 'tries to add comment' do
+        expect { post :create, params: { question_id: question.id, comment: attributes_for(:comment), format: :js } }.to_not change(question.comments, :count)
       end
     end
   end
