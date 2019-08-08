@@ -13,9 +13,9 @@ div id="answer_id_#{@answer.id}"
           - else
             li
               a href=link.url = link.name
-  - if gon.current_user_id && gon.current_user_id == gon.question_author_id && @answer.best == false
+  - if gon.current_user_id and gon.current_user_id is gon.question_author_id and @answer.best is false
     a href=@answer.select_best_answer_path class='select-best' data-method="patch" data-remote="true" Select as best
-  - if gon.current_user_id && gon.current_user_id != @answer.user_id
+  - if gon.current_user_id and gon.current_user_id isnt @answer.user_id
     .vote
       div id=@answer.vote_item_id
         span id="score_#{@answer.vote_item_id}"
