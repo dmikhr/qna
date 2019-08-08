@@ -105,6 +105,47 @@ feature 'User can see new answers in real time', %q{
     end
   end
 
+  describe 'Users see answers', js: true do
+    given(:question1) { create(:question, user: user) }
+    given(:question2) { create(:question, user: user) }
+
+    scenario 'only to corresponded question' do
+      Capybara.using_session('author_of_question1') do
+        sign_in(author)
+        visit question_path(question1)
+      end
+
+      Capybara.using_session('viewer_of_question1') do
+        visit question_path(question1)
+      end
+
+      Capybara.using_session('viewer_of_question2') do
+        visit question_path(question2)
+      end
+
+      Capybara.using_session('author_of_question1') do
+        within '.add-answer' do
+          fill_in 'Body', with: 'This is answer to the question'
+          click_on 'Write Answer'
+        end
+
+        within '.answers' do
+          expect(page).to have_content('This is answer to the question', count: 1)
+        end
+      end
+
+      Capybara.using_session('viewer_of_question1') do
+        within '.answers' do
+          expect(page).to have_content('This is answer to the question', count: 1)
+        end
+      end
+
+      Capybara.using_session('viewer_of_question2') do
+        expect(page).to_not have_content 'This is answer to the question'
+      end
+    end
+  end
+
   describe 'Comments', js: true do
     given!(:answer) { create(:answer, question: question, user: user) }
     scenario 'one user posts comment, another instantly see it' do

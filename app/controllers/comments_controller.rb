@@ -18,12 +18,17 @@ class CommentsController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
     ActionCable.server.broadcast(
-          'comments',
+          "comments_of_question_#{question_id}",
           ApplicationController.render(
             partial: 'comments/comment.json',
             locals: { comment: @comment }
           )
         )
+  end
+
+  def question_id
+    return @commentable.id if @commentable.class == Question
+    return @commentable.question_id if @commentable.class == Answer
   end
 
   def comment_params
