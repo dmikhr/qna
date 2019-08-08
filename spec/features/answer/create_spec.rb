@@ -16,8 +16,10 @@ feature 'User can submit answer to a question', %q{
     end
 
     scenario 'submit answer to the question' do
-      fill_in 'Body', with: 'This is answer to the question'
-      click_on 'Write Answer'
+      within '.add-answer' do
+        fill_in 'Body', with: 'This is answer to the question'
+        click_on 'Write Answer'
+      end
 
       expect(current_path).to eq question_path(question)
       within '.answers' do
@@ -26,15 +28,19 @@ feature 'User can submit answer to a question', %q{
     end
 
     scenario 'tries to submit empty answer' do
-      click_on 'Write Answer'
-      expect(page).to have_content "Body can't be blank"
+      within '.add-answer' do
+        click_on 'Write Answer'
+        expect(page).to have_content "Body can't be blank"
+      end
     end
 
     scenario 'submit answer with attached files' do
-      fill_in 'Body', with: 'This is answer to the question'
+      within '.add-answer' do
+        fill_in 'Body', with: 'This is answer to the question'
 
-      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
-      click_on 'Write Answer'
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Write Answer'
+      end
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'

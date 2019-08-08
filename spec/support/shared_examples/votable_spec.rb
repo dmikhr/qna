@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 shared_examples_for 'votable' do
+  it { should have_many(:votes) }
+
   context 'user' do
     it 'upvotes' do
       expect{ votable.upvote }.to change{ votable.score }.by(1)

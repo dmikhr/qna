@@ -1,0 +1,4 @@
+div id="comments_#{commentable_label(resource)}"
+  - if resource.comments.any?
+    p Comments:
+    = render resource.comments

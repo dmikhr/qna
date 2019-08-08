@@ -18,12 +18,14 @@ feature 'User can add links to answer', %q{
 
       visit question_path(question)
 
-      fill_in 'Body', with: 'This is answer to the question'
+      within '.add-answer' do
+        fill_in 'Body', with: 'This is answer to the question'
 
-      fill_in 'Link name', with: 'My link'
-      fill_in 'Url', with: url
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: url
 
-      click_on 'Write Answer'
+        click_on 'Write Answer'
+      end
 
       within '.answers' do
         expect(page).to have_link 'My link', href: url
@@ -34,12 +36,14 @@ feature 'User can add links to answer', %q{
       sign_in(user)
       visit question_path(question)
 
-      fill_in 'Body', with: 'This is answer to the question'
+      within '.add-answer' do
+        fill_in 'Body', with: 'This is answer to the question'
 
-      fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: 'not a valid url'
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: 'not a valid url'
 
-      click_on 'Write Answer'
+        click_on 'Write Answer'
+      end
 
       expect(page).to have_content 'URL is not valid'
       expect(page).to_not have_content 'My link'
@@ -50,12 +54,14 @@ feature 'User can add links to answer', %q{
       sign_in(user)
       visit question_path(question)
 
-      fill_in 'Body', with: 'This is answer to the question'
+      within '.add-answer' do
+        fill_in 'Body', with: 'This is answer to the question'
 
-      fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: gist_url
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: gist_url
 
-      click_on 'Write Answer'
+        click_on 'Write Answer'
+      end
 
       within '.answers' do
         expect(page).to have_content 'Test gist qna'
@@ -69,17 +75,21 @@ feature 'User can add links to answer', %q{
       sign_in(user)
       visit question_path(question)
 
-      fill_in 'Body', with: 'This is answer to the question'
+      within '.add-answer' do
+        fill_in 'Body', with: 'This is answer to the question'
 
-      fill_in 'Link name', with: 'My link'
-      fill_in 'Url', with: url
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: url
 
-      click_on 'add link'
+        click_on 'add link'
 
-      page.all('.nested-fields')[1].fill_in 'Link name', with: 'My link 2'
-      page.all('.nested-fields')[1].fill_in 'Url', with: url2
+        within page.all('.nested-fields')[1] do
+          fill_in 'Link name', with: 'My link 2'
+          fill_in 'Url', with: url2
+        end
 
-      click_on 'Write Answer'
+        click_on 'Write Answer'
+      end
 
       within '.answers' do
         expect(page).to have_link 'My link', href: url

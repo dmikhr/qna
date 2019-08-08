@@ -1,0 +1,28 @@
+div id="answer_id_#{@answer.id}"
+  p= @answer.body
+  - for file in @files
+    div id="file_id_#{file.id}"
+      p
+        a href=file.url = file.filename
+  .links
+    ul
+    - for link in @links
+      div id="link_id_#{link.id}"
+          - if link.gist_link
+            li= link.gist_contents
+          - else
+            li
+              a href=link.url = link.name
+  - if gon.current_user_id and gon.current_user_id is gon.question_author_id and @answer.best is false
+    a href=@answer.select_best_answer_path class='select-best' data-method="patch" data-remote="true" Select as best
+  - if gon.current_user_id and gon.current_user_id isnt @answer.user_id
+    .vote
+      div id=@answer.vote_item_id
+        span id="score_#{@answer.vote_item_id}"
+          p= "Rating #{@answer.score}"
+        | &nbsp;
+        a href="/answers/#{@answer.id}/upvote" data-method="patch" data-type="json" data-remote="true" Upvote
+        | &nbsp;
+        a href="/answers/#{@answer.id}/cancel_vote" data-method="patch" data-type="json" data-remote="true" Cancel vote
+        | &nbsp;
+        a href="/answers/#{@answer.id}/downvote" data-method="patch" data-type="json" data-remote="true" Downvote

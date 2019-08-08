@@ -1,0 +1,6 @@
+$('#comment_errors_<%= commentable_label(@commentable) %>').html('<%= render 'shared/errors', resource: @comment %>');
+
+<% if @comment.persisted? %>
+  $("#comments_<%= commentable_label(@commentable) %>").append('<%= j render @comment %>');
+  $('.new-comment #comment_body').val('');
+<% end %>

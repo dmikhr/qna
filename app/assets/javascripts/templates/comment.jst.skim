@@ -1,0 +1,2 @@
+div id="comment_id_#{@comment.id}"
+  p= @comment.body
