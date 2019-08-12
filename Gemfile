@@ -46,6 +46,9 @@ gem "octokit", "~> 4.0"
 
 gem "cocoon"
 
+gem 'omniauth'
+gem 'omniauth-github'
+
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails', groups: [:development, :test]
 
