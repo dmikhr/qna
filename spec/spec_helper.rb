@@ -12,6 +12,8 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 #
+require 'capybara/email/rspec'
+
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter '/bin/'
