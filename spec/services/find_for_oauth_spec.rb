@@ -4,12 +4,12 @@ RSpec.describe Services::FindForOauth do
   let!(:user) { create(:user) }
   let(:auth) { mock_auth(:github, user.email) }
   let(:user_auth) { create(:authorization, user: user) }
-  subject { Services::FindForOauth.new(auth) }
+  subject { Services::FindForOauth.new }
 
   context 'user already has authorization' do
     it 'returns the user' do
       user_auth
-      expect(subject.call).to eq user
+      expect(subject.call(auth)).to eq user
     end
   end
 
@@ -18,22 +18,22 @@ RSpec.describe Services::FindForOauth do
       let(:auth) { mock_auth(:github, user.email) }
 
       it 'does not create new user' do
-        expect {subject.call}.to_not change(User, :count)
+        expect {subject.call(auth)}.to_not change(User, :count)
       end
 
       it 'creates authorization for user' do
-        expect {subject.call}.to change(user.authorizations, :count).by(1)
+        expect {subject.call(auth)}.to change(user.authorizations, :count).by(1)
       end
 
       it 'creates authorization with provider and uid' do
-        authorization = subject.call.authorizations.first
+        authorization = subject.call(auth).authorizations.first
 
         expect(authorization.provider).to eq auth.provider
         expect(authorization.uid).to eq auth.uid
       end
 
       it 'returns the user' do
-        expect(subject.call).to eq user
+        expect(subject.call(auth)).to eq user
       end
     end
 
@@ -41,25 +41,25 @@ RSpec.describe Services::FindForOauth do
       let(:auth) { mock_auth(:github, 'new@user.com') }
 
       it 'creates new user' do
-        expect {subject.call}.to change(User, :count).by(1)
+        expect {subject.call(auth)}.to change(User, :count).by(1)
       end
 
       it 'returns new user' do
-        expect(subject.call).to be_a(User)
+        expect(subject.call(auth)).to be_a(User)
       end
 
       it 'fills user email' do
-        user = subject.call
+        user = subject.call(auth)
         expect(user.email).to eq auth.info[:email]
       end
 
       it 'creates authorization for user' do
-        user = subject.call
+        user = subject.call(auth)
         expect(user.authorizations).to_not be_empty
       end
 
       it 'creates authorization with provider and uid' do
-        authorization = subject.call.authorizations.first
+        authorization = subject.call(auth).authorizations.first
 
         expect(authorization.provider).to eq auth.provider
         expect(authorization.uid).to eq auth.uid

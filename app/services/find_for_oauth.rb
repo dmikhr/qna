@@ -1,11 +1,7 @@
 class Services::FindForOauth
   attr_reader :auth
 
-  def initialize(auth)
-    @auth = auth
-  end
-
-  def call
+  def call(auth)
     authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 

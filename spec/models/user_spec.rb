@@ -34,8 +34,8 @@ RSpec.describe User, type: :model do
     let(:service) { double('Services::FindForOauth') }
 
     it 'calls Services::FindForOauth' do
-      expect(Services::FindForOauth).to receive(:new).with(auth).and_return(service)
-      expect(service).to receive(:call)
+      expect(Services::FindForOauth).to receive(:new).and_return(service)
+      expect(service).to receive(:call).with(auth)
       User.find_for_oauth(auth)
     end
   end
