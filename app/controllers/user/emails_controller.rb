@@ -1,8 +1,8 @@
 class User::EmailsController < ApplicationController
 
-  def show_submit_email; end
+  def new; end
 
-  def submit_email
+  def create
     if User.create_by_email(email).persisted?
       redirect_to new_user_session_path, notice: 'Check your email for confirmation instructions'
     else

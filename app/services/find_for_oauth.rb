@@ -12,7 +12,7 @@ class Services::FindForOauth
     if user
       User.transaction do
         user.update!(confirmed_at: Time.now)
-        user.create_authorization(auth)
+        user.create_authorization!(auth)
       end
     else
       password = Devise.friendly_token[0, 20]
@@ -20,7 +20,7 @@ class Services::FindForOauth
         user = User.create!(email: email, password: password,
                             password_confirmation: password,
                             confirmed_at: Time.now)
-        user.create_authorization(auth)
+        user.create_authorization!(auth)
       end
     end
 
