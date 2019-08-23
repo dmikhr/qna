@@ -54,7 +54,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
       it 'redirects to submit email form' do
         get :github
-        expect(response).to redirect_to sign_up_submit_email_path
+        expect(response).to redirect_to user_sign_up_submit_email_path
       end
     end
   end
@@ -108,7 +108,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
       it 'redirects to submit email form' do
         get :vkontakte
-        expect(response).to redirect_to sign_up_submit_email_path
+        expect(response).to redirect_to user_sign_up_submit_email_path
       end
     end
   end

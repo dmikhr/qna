@@ -8,21 +8,11 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     oauth_provider :vkontakte
   end
 
-  def show_submit_email; end
-
-  def submit_email
-    if User.create_by_email(email).persisted?
-      redirect_to new_user_session_path, notice: 'Check your email for confirmation instructions'
-    else
-      redirect_to new_user_session_path, notice: 'You can sign up'
-    end
-  end
-
   private
 
   def oauth_provider(provider)
     if !request.env['omniauth.auth'].info[:email]
-      redirect_to sign_up_submit_email_path
+      redirect_to user_sign_up_submit_email_path
       return
     end
 
@@ -34,9 +24,5 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     else
       redirect_to root_path, alert: 'Something went wrong'
     end
-  end
-
-  def email
-    params.require(:email)
   end
 end

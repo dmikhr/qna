@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
-  devise_scope :user do
-    get '/sign_up_submit_email', to: 'oauth_callbacks#show_submit_email'
-    post '/sign_up_submit_email', to: 'oauth_callbacks#submit_email'
+  namespace :user do
+    get '/sign_up_submit_email', to: 'emails#show_submit_email'
+    post '/sign_up_submit_email', to: 'emails#submit_email'
   end
 
   root to: 'questions#index'
