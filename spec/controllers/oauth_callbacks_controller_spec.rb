@@ -48,6 +48,15 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to_not be
       end
     end
+
+    context 'has no user email' do
+      before { @request.env['omniauth.auth'] = mock_auth(:github, email = nil) }
+
+      it 'redirects to submit email form' do
+        get :github
+        expect(response).to redirect_to sign_up_submit_email_path
+      end
+    end
   end
 
   describe 'Vkontakte' do
@@ -91,6 +100,15 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
       it 'does not login user' do
         expect(subject.current_user).to_not be
+      end
+    end
+
+    context 'has no user email' do
+      before { @request.env['omniauth.auth'] = mock_auth(:vkontakte, email = nil) }
+
+      it 'redirects to submit email form' do
+        get :vkontakte
+        expect(response).to redirect_to sign_up_submit_email_path
       end
     end
   end

@@ -11,11 +11,10 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   def show_submit_email; end
 
   def submit_email
-    user = User.create_user(email)
-    if !user
-      redirect_to new_user_session_path, notice: 'You can sign up'
-    else
+    if User.create_by_email(email).persisted?
       redirect_to new_user_session_path, notice: 'Check your email for confirmation instructions'
+    else
+      redirect_to new_user_session_path, notice: 'You can sign up'
     end
   end
 

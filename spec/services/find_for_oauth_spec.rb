@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Services::FindForOauth do
-  let!(:user) {create(:user)}
-  let(:auth) {OmniAuth::AuthHash.new(provider: 'github', uid: '123456')}
+  let!(:user) { create(:user) }
+  let(:auth) { mock_auth(:github, user.email) }
+  let(:user_auth) { create(:authorization, user: user) }
   subject { Services::FindForOauth.new(auth) }
 
   context 'user already has authorization' do
     it 'returns the user' do
-      user.authorizations.create(provider: 'github', uid: '123456')
+      user_auth
       expect(subject.call).to eq user
     end
   end

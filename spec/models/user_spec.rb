@@ -40,15 +40,15 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.create_user' do
+  describe '.create_by_email' do
     let!(:user) { create(:user, email: 'registered@user.com') }
 
     it 'create new user' do
-      expect{ User.create_user('new@user.com') }.to change(User, :count).by(1)
+      expect{ User.create_by_email('new@user.com') }.to change(User, :count).by(1)
     end
 
     it "don't create user if it already exists" do
-      expect{ User.create_user('registered@user.com') }.to_not change(User, :count)
+      expect{ User.create_by_email('registered@user.com') }.to_not change(User, :count)
     end
   end
 end
