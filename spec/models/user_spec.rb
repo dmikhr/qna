@@ -39,4 +39,16 @@ RSpec.describe User, type: :model do
       User.find_for_oauth(auth)
     end
   end
+
+  describe '.create_user' do
+    let!(:user) { create(:user, email: 'registered@user.com') }
+
+    it 'create new user' do
+      expect{ User.create_user('new@user.com') }.to change(User, :count).by(1)
+    end
+
+    it "don't create user if it already exists" do
+      expect{ User.create_user('registered@user.com') }.to_not change(User, :count)
+    end
+  end
 end

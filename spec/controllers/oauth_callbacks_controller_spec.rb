@@ -6,7 +6,9 @@ RSpec.describe OauthCallbacksController, type: :controller do
   end
 
   describe 'Github' do
-    let(:oauth_data) { {'provider' => 'github', 'uid' => 123 } }
+    before { @request.env['omniauth.auth'] = mock_auth(:github, 'new@user.com') }
+
+    let(:oauth_data) { mock_auth(:github, 'new@user.com') }
 
     it 'finds user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
@@ -27,7 +29,6 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to eq user
       end
 
-
       it 'redirects to root path' do
         expect(response).to redirect_to root_path
       end
@@ -43,16 +44,16 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(response).to redirect_to root_path
       end
 
-
       it 'does not login user' do
         expect(subject.current_user).to_not be
       end
     end
-
   end
 
   describe 'Vkontakte' do
-    let(:oauth_data) { {'provider' => 'vkontakte', 'uid' => 123 } }
+    before { @request.env['omniauth.auth'] = mock_auth(:vkontakte, 'new@user.com') }
+
+    let(:oauth_data) { mock_auth(:vkontakte, 'new@user.com') }
 
     it 'finds user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
@@ -73,7 +74,6 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to eq user
       end
 
-
       it 'redirects to root path' do
         expect(response).to redirect_to root_path
       end
@@ -89,11 +89,9 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(response).to redirect_to root_path
       end
 
-
       it 'does not login user' do
         expect(subject.current_user).to_not be
       end
     end
-
   end
 end
