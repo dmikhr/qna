@@ -20,8 +20,8 @@ feature 'User can sign in with 3rd party OAuth provider' do
     end
 
     scenario "OAuth provider doesn't have user's email" do
-      # 'email = nil' решил указать явно в виде аргумента для наглядности тестов
-      mock_auth(:github, email = nil)
+      # 'email: nil' решил указать явно в виде аргумента для наглядности тестов
+      mock_auth(:github, email: nil)
       click_on 'Sign in with GitHub'
 
       expect(page).to have_content 'In order to proceed with sign up enter your email'
@@ -36,7 +36,7 @@ feature 'User can sign in with 3rd party OAuth provider' do
     # случай, когда OAuth провайдер не имеет email пользователя, но
     # после ввода email оказывается, что такой пользователь в БД есть - тогда подтверждение не нужно
     scenario "OAuth provider doesn't have user's email but user have an account" do
-      mock_auth(:github, email = nil)
+      mock_auth(:github, email: nil)
       click_on 'Sign in with GitHub'
 
       expect(page).to have_content 'In order to proceed with sign up enter your email'
@@ -63,7 +63,7 @@ feature 'User can sign in with 3rd party OAuth provider' do
     end
 
     scenario "OAuth provider doesn't have user's email" do
-      mock_auth(:vkontakte, email = nil)
+      mock_auth(:vkontakte, email: nil)
       click_on 'Sign in with Vkontakte'
 
       expect(page).to have_content 'In order to proceed with sign up enter your email'
@@ -76,7 +76,7 @@ feature 'User can sign in with 3rd party OAuth provider' do
     end
 
     scenario "OAuth provider doesn't have user's email but user have an account" do
-      mock_auth(:vkontakte, email = nil)
+      mock_auth(:vkontakte, email: nil)
       click_on 'Sign in with Vkontakte'
 
       expect(page).to have_content 'In order to proceed with sign up enter your email'
