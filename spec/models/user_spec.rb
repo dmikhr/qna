@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
+  it { should have_many(:authorizations).dependent(:destroy) }
 
   describe 'Authorship' do
     let(:user) { create(:user) }
@@ -24,6 +25,30 @@ RSpec.describe User, type: :model do
 
     it 'of a question written by another user' do
       expect(user).to_not be_author_of(another_question)
+    end
+  end
+
+  describe '.find_for_oauth' do
+    let!(:user) { create(:user) }
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
+    let(:service) { double('Services::FindForOauth') }
+
+    it 'calls Services::FindForOauth' do
+      expect(Services::FindForOauth).to receive(:new).and_return(service)
+      expect(service).to receive(:call).with(auth)
+      User.find_for_oauth(auth)
+    end
+  end
+
+  describe '.create_by_email' do
+    let!(:user) { create(:user, email: 'registered@user.com') }
+
+    it 'create new user' do
+      expect{ User.create_by_email('new@user.com') }.to change(User, :count).by(1)
+    end
+
+    it "don't create user if it already exists" do
+      expect{ User.create_by_email('registered@user.com') }.to_not change(User, :count)
     end
   end
 end
