@@ -7,15 +7,17 @@
     = render 'shared/files_list', resource: answer
     .links
       = render 'shared/links_list', resource: answer
-    - if show_select_best_option?(answer)
+    - if can?(:select_best, answer)
         p= link_to 'Select as best', select_best_answer_path(answer), remote: true, class: 'select-best', method: :patch
-    - if current_user&.author_of?(answer)
-      .edit-answer
+    .delete-answer
+      - if can?(:destroy, answer)
         p= link_to 'Delete answer', answer_path(answer), remote: true, method: :delete
+    .edit-answer
+      - if can?(:update, answer)
         p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
         = render 'answers/answer_edit_form', answer: answer
     .answer-comments
       = render 'shared/comments_list', resource: answer
-    - if current_user.present?
+    - if can?(:create, Comment)
       .add-comment-answer
         = render 'shared/add_comment_form', commentable: answer

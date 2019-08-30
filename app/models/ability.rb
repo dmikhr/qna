@@ -35,7 +35,7 @@ class Ability
 
     # автор вопроса может выбрать лучший ответ
     can :select_best, Answer do |answer|
-      user.author_of?(answer.question)
+      user.author_of?(answer.question) && !answer.best
     end
 
     # автор Linkable может удалить ссылку
