@@ -16,6 +16,7 @@ RSpec.describe FilesController, type: :controller do
 
       it 'renders destroy view' do
         delete :destroy, params: { id: question.files.first }, format: :js
+        # byebug
         expect(response).to render_template :destroy
       end
     end
@@ -26,7 +27,7 @@ RSpec.describe FilesController, type: :controller do
         expect { delete :destroy, params: { id: question.files.first }, format: :js }.to_not change(question.files, :count)
       end
 
-      it 'renders destroy view' do
+      it 'redirect to root path' do
         delete :destroy, params: { id: question.files.first }, format: :js
         expect(response).to render_template :destroy
       end
@@ -37,9 +38,9 @@ RSpec.describe FilesController, type: :controller do
         expect { delete :destroy, params: { id: question.files.first }, format: :js }.to_not change(question.files, :count)
       end
 
-      it 'no view renders' do
+      it 'redirect to root path' do
         delete :destroy, params: { id: question.files.first }, format: :js
-        expect(response.body).to be_empty
+        expect(response).to redirect_to root_path
       end
     end
   end

@@ -49,7 +49,6 @@ feature 'User can select the best answer to his question', %q{
 
       within "div#answer_id_#{answers[0].id}" do
         click_on 'Select as best'
-        wait_for_ajax
         expect(page).to_not have_content 'Select as best'
       end
 
