@@ -4,9 +4,9 @@
     = link_to question.title,  question_path(question)
     = render 'shared/files_list', resource: question
 
-    - if current_user&.author_of?(question)
-        .question
+    .question
+      - if can?(:destroy, question)
           p= button_to 'Delete question', question_path(question), method: :delete
-
+      - if can?(:update, question)
           p= link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
           = render 'questions/question_edit_form', question: question

@@ -7,7 +7,7 @@ p= @question.body
 - @question.files.each do |file|
   p= link_to file.filename.to_s, url_for(file)
 
-- if current_user.present?
+- if can?(:create, Comment)
   .add-comment-question
     = render 'shared/add_comment_form', commentable: @question
 
@@ -20,7 +20,7 @@ p= @question.body
 .answers
   = render @question.answers
 
-- if current_user.present?
+- if can?(:create, Answer)
   .add-answer
     p Write answer to the question
     = render 'questions/answer_form'

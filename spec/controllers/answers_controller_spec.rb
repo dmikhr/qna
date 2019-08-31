@@ -80,9 +80,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'get empty response' do
+      it 'error response' do
         delete :destroy, params: { id: answer }, format: :js
-        expect(response.body).to be_empty
+        expect(response.status).to eq 403
       end
     end
 
@@ -137,9 +137,9 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'new body'
       end
 
-      it 'renders update view' do
+      it 'error response' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
-        expect(response).to render_template :update
+        expect(response.status).to eq 403
       end
     end
 

@@ -27,9 +27,9 @@ RSpec.describe LinksController, type: :controller do
       expect { delete :destroy, params: { id: link }, format: :js }.to_not change(question.links, :count)
     end
 
-    it 'renders destroy view' do
+    it 'error response' do
       delete :destroy, params: { id: link }, format: :js
-      expect(response).to render_template :destroy
+      expect(response.status).to eq 403
     end
   end
 
@@ -38,9 +38,9 @@ RSpec.describe LinksController, type: :controller do
       expect { delete :destroy, params: { id: link }, format: :js }.to_not change(question.links, :count)
     end
 
-    it 'no view renders' do
+    it 'error response' do
       delete :destroy, params: { id: link }, format: :js
-      expect(response.body).to be_empty
+      expect(response.status).to eq 403
     end
   end
 end
