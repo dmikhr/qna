@@ -49,6 +49,8 @@ gem "cocoon"
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
+gem 'doorkeeper'
+
 gem 'cancancan'
 
 gem "aws-sdk-s3", require: false
