@@ -76,17 +76,13 @@ describe 'Questions API', type: :request do
       let(:user) { create(:user) }
       let(:access_token) { create(:access_token) }
 
-      before { get api_path, params: {access_token: access_token.token}, headers: headers }
-
-      it_behaves_like 'API response successful'
-
       context 'with valid attributes' do
         it 'saves a new question in the database' do
           expect { post api_path, params: { question: attributes_for(:question),
                     access_token: access_token.token } }.to change(Question, :count).by(1)
         end
 
-        it 'returns status 200' do
+        it 'API response successful' do
           post api_path, params: { question: attributes_for(:question), access_token: access_token.token }
           expect(response.status).to eq 200
         end
@@ -101,6 +97,77 @@ describe 'Questions API', type: :request do
         it 'returns error' do
           post api_path, params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
           expect(response.status).to eq 500
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/questions/:id' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:access_token) { create(:access_token) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        patch api_path, params: { id: question,
+                                  question: { title: 'new title for question', body: 'new body for question' } }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        patch api_path, params: { id: question,
+                                  question: { title: 'new title for question',
+                                  body: 'new body for question' }, access_token: '1234' }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let(:user_other) { create(:user) }
+      let(:access_token) { create(:access_token) }
+      # автор вопроса и владелец токена должен быть одним пользователем, чтобы редактировать вопрос
+      let!(:question) { create(:question, user_id: access_token.resource_owner_id) }
+      let!(:question_other) { create(:question, user: user) }
+      let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+      context 'with valid attributes' do
+        it 'changes question attributes' do
+          patch api_path, params: { id: question,
+                                    question: { title: 'new title for question', body: 'new body for question' },
+                                    access_token: access_token.token }
+          question.reload
+
+          expect(question.title).to eq 'new title for question'
+          expect(question.body).to eq 'new body for question'
+        end
+
+        it 'API response successful' do
+          patch api_path, params: { id: question,
+                                    question: { title: 'new title for question', body: 'new body for question' },
+                                    access_token: access_token.token }
+          expect(response.status).to eq 204
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'changes question attributes' do
+          patch api_path, params: { id: question, question: { title: '' }, access_token: access_token.token }
+          question.reload
+          expect(question.title).to_not eq 'new title for question'
+          expect(question.body).to_not eq 'new body for question'
+        end
+      end
+
+      context 'not an author' do
+        it 'cannot change question attributes' do
+          patch api_path, params: { id: question_other,
+                                    question: { title: 'new title for question', body: 'new body for question' },
+                                    access_token: access_token.token }
+          question_other.reload
+
+          expect(question_other.title).to_not eq 'new title for question'
+          expect(question_other.body).to_not eq 'new body for question'
         end
       end
     end
