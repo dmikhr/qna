@@ -1,6 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
 
-  before_action :load_question, only: %i[update]
+  before_action :load_question, only: %i[update destroy]
 
   def index
     @questions = Question.all
@@ -19,6 +19,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def update
     @question.update(question_params) if current_resource_owner&.author_of?(@question)
+  end
+
+  def destroy
+    @question.destroy if current_resource_owner&.author_of?(@question)
   end
 
   private

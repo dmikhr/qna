@@ -130,6 +130,7 @@ describe 'Questions API', type: :request do
       let!(:question) { create(:question, user_id: access_token.resource_owner_id) }
       let!(:question_other) { create(:question, user: user) }
       let(:api_path) { "/api/v1/questions/#{question.id}" }
+      let(:api_path_other) { "/api/v1/questions/#{question_other.id}" }
 
       context 'with valid attributes' do
         it 'changes question attributes' do
@@ -161,13 +162,60 @@ describe 'Questions API', type: :request do
 
       context 'not an author' do
         it 'cannot change question attributes' do
-          patch api_path, params: { id: question_other,
+          patch api_path_other, params: { id: question_other,
                                     question: { title: 'new title for question', body: 'new body for question' },
                                     access_token: access_token.token }
           question_other.reload
 
           expect(question_other.title).to_not eq 'new title for question'
           expect(question_other.body).to_not eq 'new body for question'
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/questions/:id' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:access_token) { create(:access_token) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        delete api_path, params: { id: question }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        delete api_path, params: { id: question }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let(:user_other) { create(:user) }
+      let(:access_token) { create(:access_token) }
+      let!(:question) { create(:question, user_id: access_token.resource_owner_id) }
+      let!(:question_other) { create(:question, user: user) }
+      let(:api_path) { "/api/v1/questions/#{question.id}" }
+      let(:api_path_other) { "/api/v1/questions/#{question_other.id}" }
+
+      context 'with valid attributes' do
+        it 'deletes question from the database' do
+          expect { delete api_path, params: { question: question,
+                    access_token: access_token.token } }.to change(Question, :count).by(-1)
+        end
+
+        it 'API response successful' do
+          delete api_path, params: { question: question, access_token: access_token.token }
+          expect(response.status).to eq 204
+        end
+      end
+
+      context 'not an author' do
+        it 'cannot delete question from the database' do
+          expect { delete api_path_other, params: { question: question_other,
+                    access_token: access_token.token } }.to_not change(Question, :count)
         end
       end
     end
