@@ -51,7 +51,7 @@ describe 'Questions API', type: :request do
         it_behaves_like 'returns all public fields' do
           let(:items) { answers }
           let(:json_items) { question_response['answers'] }
-          let(:public_fields) { %w[id body user_id created_at updated_at] }
+          let(:public_fields) { %w[id body created_at updated_at] }
         end
       end
     end
