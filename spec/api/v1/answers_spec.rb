@@ -71,4 +71,51 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/answers/:id' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, :with_files, user: user) }
+    let(:answer) { create(:answer, :with_files, question: question, user: user) }
+    let(:answer_response) { json['answer'] }
+    let!(:comments) { create_list(:comment, 3, commentable: answer, user: user) }
+    let!(:links) { create_list(:link, 3, linkable: answer) }
+    let(:access_token) { create(:access_token) }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :get }
+      let(:api_path) { '/api/v1/questions' }
+    end
+
+    before { get api_path, params: { access_token: access_token.token }, headers: headers }
+
+    it_behaves_like 'API response successful'
+
+    it_behaves_like 'returns all public fields' do
+      let(:items) { [answer] }
+      let(:json_items) { [json['answer']] }
+      let(:public_fields) { %w[id body created_at updated_at] }
+    end
+
+    describe 'comments' do
+      it_behaves_like 'number of items match' do
+        let(:items) { comments }
+        let(:json_items) { answer_response['comments'] }
+      end
+    end
+
+    describe 'links' do
+      it_behaves_like 'number of items match' do
+        let(:items) { links }
+        let(:json_items) { answer_response['links'] }
+      end
+    end
+
+    describe 'files' do
+      it_behaves_like 'number of items match' do
+        let(:items) { answer.files }
+        let(:json_items) { answer_response['files'] }
+      end
+    end
+  end
 end
