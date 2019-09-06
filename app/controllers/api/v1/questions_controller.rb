@@ -1,6 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
 
-  before_action :load_question, only: %i[update destroy]
+  before_action :load_question, only: %i[show update destroy]
 
   def index
     @questions = Question.all
@@ -15,6 +15,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     else
       render json: nil, status: :internal_server_error
     end
+  end
+
+  def show
+    render json: @question, serializer: QuestionFullSerializer
   end
 
   def update
