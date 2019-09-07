@@ -187,7 +187,7 @@ describe 'Questions API', type: :request do
       end
 
       it 'returns 401 status if access_token is invalid' do
-        delete api_path, params: { id: question }
+        delete api_path, params: { id: question, access_token: '1234' }
         expect(response.status).to eq 401
       end
     end

@@ -43,7 +43,7 @@ class Ability
       user.author_of?(file.record)
     end
 
-    # api/v1/profiles#me
-    can :me, User
+    # api/v1/profiles#index api/v1/profiles#me
+    can [:index, :me], User
   end
 end
