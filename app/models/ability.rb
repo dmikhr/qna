@@ -5,7 +5,6 @@ class Ability
 
   def initialize(user)
     @user = user
-
     return guest_abilities unless user
     user.admin? ? admin_abilities : user_abilities
   end
@@ -43,5 +42,8 @@ class Ability
     can :destroy, ActiveStorage::Attachment do |file|
       user.author_of?(file.record)
     end
+
+    # api/v1/profiles#me
+    can :me, User
   end
 end

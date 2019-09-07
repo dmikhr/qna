@@ -1,5 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
 
+  authorize_resource class: Question
+
   before_action :load_question, only: %i[show update destroy]
 
   def index

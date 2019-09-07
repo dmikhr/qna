@@ -1,4 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController
+
+  authorize_resource class: Answer
+
   before_action :set_question, only: %i[index create]
   before_action :set_answer, only: %i[show]
 
