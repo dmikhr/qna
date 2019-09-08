@@ -12,7 +12,11 @@ class Api::V1::AnswersController < Api::V1::BaseController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_resource_owner
-    @answer.save
+    if @answer.save
+      render json: @answer
+    else
+      render json: @answer.errors, status: :unprocessable_entity
+    end
   end
 
   def show

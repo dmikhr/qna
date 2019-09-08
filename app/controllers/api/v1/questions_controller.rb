@@ -15,7 +15,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     if @question.save
       render json: @question
     else
-      render json: nil, status: :internal_server_error
+      render json: @question.errors, status: :unprocessable_entity
     end
   end
 

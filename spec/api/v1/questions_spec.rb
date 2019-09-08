@@ -84,7 +84,7 @@ describe 'Questions API', type: :request do
 
         it 'API response successful' do
           post api_path, params: { question: attributes_for(:question), access_token: access_token.token }
-          expect(response.status).to eq 200
+          expect(response).to be_successful
         end
       end
 
@@ -96,7 +96,7 @@ describe 'Questions API', type: :request do
 
         it 'returns error' do
           post api_path, params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
-          expect(response.status).to eq 500
+          expect(response.status).to eq 422
         end
       end
     end

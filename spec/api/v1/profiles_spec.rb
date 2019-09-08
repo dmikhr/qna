@@ -49,7 +49,7 @@ describe 'Profiles API', type: :request do
 
       it 'does not return authenticated user' do
         json_user_ids = json.map { |user| user['id'] }
-        expect(json_user_ids.exclude?(me.id)).to be true
+        expect(json_user_ids).to_not include(me.id)
       end
 
       it_behaves_like 'returns list of items' do

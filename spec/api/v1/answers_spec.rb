@@ -60,7 +60,7 @@ describe 'Answers API', type: :request do
 
       it 'API response successful' do
         post api_path, params: { question: question, answer: attributes_for(:answer), access_token: access_token.token }
-        expect(response.status).to eq 204
+        expect(response).to be_successful
       end
     end
 

@@ -7,8 +7,10 @@ end
 shared_examples_for 'returns list of items' do
   it 'returns list of items' do
     item_ids = items.map { |item| item.id }
-    all_items_match = json_items.map { |item| item_ids.include?(item['id']) }
-    expect(all_items_match.any?(false)).to be false
+
+    json_items.map do |item|
+      expect(item_ids).to include(item['id'])
+    end
   end
 end
 

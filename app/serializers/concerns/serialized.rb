@@ -10,11 +10,11 @@ module Serialized
   end
 
   def comments
-    object.comments.map { |comment| comment.body }
+    object.comments.map(&:body)
   end
 
   def links
-    object.links.map { |link| link.url }
+    object.links.map(&:url)
   end
 
   def files
