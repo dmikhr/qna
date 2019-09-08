@@ -1,6 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
 
-  authorize_resource class: Question
+  skip_authorization_check
 
   before_action :load_question, only: %i[show update destroy]
 
@@ -12,11 +12,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def create
     @question = Question.new(question_params)
     @question.user = current_resource_owner
-    if @question.save
-      render json: @question
-    else
-      render json: @question.errors, status: :unprocessable_entity
-    end
+    render_errors unless @question.save
   end
 
   def show
@@ -24,11 +20,13 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def update
-    @question.update(question_params) if current_resource_owner&.author_of?(@question)
+    authorize! :update, @question
+    render_errors unless @question.update(question_params)
   end
 
   def destroy
-    @question.destroy if current_resource_owner&.author_of?(@question)
+    authorize! :destroy, @question
+    render_errors unless @question.destroy
   end
 
   private
@@ -39,5 +37,9 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def load_question
     @question = Question.find(params[:id])
+  end
+
+  def render_errors
+    render json: @question.errors, status: :unprocessable_entity
   end
 end

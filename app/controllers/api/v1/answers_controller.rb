@@ -12,11 +12,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_resource_owner
-    if @answer.save
-      render json: @answer
-    else
-      render json: @answer.errors, status: :unprocessable_entity
-    end
+    render_errors unless @answer.save
   end
 
   def show
@@ -35,5 +31,9 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def render_errors
+    render json: @answer.errors, status: :unprocessable_entity
   end
 end

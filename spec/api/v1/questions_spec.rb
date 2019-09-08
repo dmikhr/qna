@@ -147,7 +147,7 @@ describe 'Questions API', type: :request do
           patch api_path, params: { id: question,
                                     question: { title: 'new title for question', body: 'new body for question' },
                                     access_token: access_token.token }
-          expect(response.status).to eq 204
+          expect(response).to be_successful
         end
       end
 

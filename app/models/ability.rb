@@ -20,8 +20,7 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user: user
-    can :destroy, [Question, Answer], user: user
+    can [:update, :destroy], [Question, Answer], user: user
 
     # голосование: можно голосовать, если user не автор
     # использование блока: http://connect.thinknetica.com/t/13-rails/471/49
