@@ -8,7 +8,7 @@ shared_examples_for 'returns list of items' do
   it 'returns list of items' do
     item_ids = items.map { |item| item.id }
 
-    json_items.map do |item|
+    json_items.each do |item|
       expect(item_ids).to include(item['id'])
     end
   end

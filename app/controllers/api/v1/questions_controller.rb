@@ -12,7 +12,11 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def create
     @question = Question.new(question_params)
     @question.user = current_resource_owner
-    render_errors unless @question.save
+    if @question.save
+      render json: @question
+    else
+      render json: @question.errors, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -21,12 +25,16 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def update
     authorize! :update, @question
-    render_errors unless @question.update(question_params)
+    if @question.update(question_params)
+      render json: @question
+    else
+      render json: @question.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
     authorize! :destroy, @question
-    render_errors unless @question.destroy
+    @question.destroy
   end
 
   private
@@ -37,9 +45,5 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def load_question
     @question = Question.find(params[:id])
-  end
-
-  def render_errors
-    render json: @question.errors, status: :unprocessable_entity
   end
 end
