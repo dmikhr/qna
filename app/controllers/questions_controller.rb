@@ -38,12 +38,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy if current_user&.author_of?(@question)
+    @question.destroy
     redirect_to questions_path
   end
 
   def update
-    @question.update(question_params) if current_user&.author_of?(@question)
+    @question.update(question_params)
   end
 
   private

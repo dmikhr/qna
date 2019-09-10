@@ -5,7 +5,6 @@ class Ability
 
   def initialize(user)
     @user = user
-
     return guest_abilities unless user
     user.admin? ? admin_abilities : user_abilities
   end
@@ -21,8 +20,7 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user: user
-    can :destroy, [Question, Answer], user: user
+    can [:update, :destroy], [Question, Answer], user: user
 
     # голосование: можно голосовать, если user не автор
     # использование блока: http://connect.thinknetica.com/t/13-rails/471/49
@@ -43,5 +41,10 @@ class Ability
     can :destroy, ActiveStorage::Attachment do |file|
       user.author_of?(file.record)
     end
+
+    # api/v1/profiles#index
+    can :index, User
+    # api/v1/profiles#me
+    can :me, User, user: user
   end
 end

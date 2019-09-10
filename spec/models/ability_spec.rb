@@ -71,5 +71,9 @@ describe Ability, type: :model do
     context 'Attachment' do
       it { should be_able_to :destroy, ActiveStorage::Attachment }
     end
+
+    context 'Profile' do
+      it { should be_able_to [:index, :me], User }
+    end
   end
 end
