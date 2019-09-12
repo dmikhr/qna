@@ -15,4 +15,12 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
   validates :title, length: { in: 10..150 }
   validates :body, length: { minimum: 10 }
+
+  after_create :calculate_reputation
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
 end
