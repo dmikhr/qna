@@ -16,11 +16,19 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :send_notification
+
   def select_best
     Answer.transaction do
       question.answers.where(best: true).update_all(best: false)
       update!(best: true)
       question.reward.update(user: user)
     end
+  end
+
+  private
+
+  def send_notification
+    NewAnswerNotificationJob.perform_later(question)
   end
 end
