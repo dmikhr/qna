@@ -4,7 +4,6 @@ class SubscriptionsController < ApplicationController
   before_action :load_question, only: :create
 
   authorize_resource
-  # skip_authorization_check
 
   def create
     @subscription = Subscription.new(subscribable: @question, user: current_user)
@@ -19,7 +18,6 @@ class SubscriptionsController < ApplicationController
 
   def subscribable_id
     params.require(:id)
-    # params.require(:subscription).permit(:title, :body)
   end
 
   def load_question

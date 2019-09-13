@@ -47,8 +47,6 @@ class Ability
     # api/v1/profiles#me
     can :me, User, user: user
 
-    can [:create, :destroy], Subscription do |subscription|
-      user.subscribed?(subscription.subscribable)
-    end
+    can [:create, :destroy], Subscription
   end
 end

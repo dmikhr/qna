@@ -1,6 +1,10 @@
 h1= @question.title
 p= @question.body
 
+.subscription
+  - if current_user.present?
+    = render 'subscriptions/subscribe_link', subscribable: @question
+
 - if can_vote?(@question)
   = render 'shared/vote', resource: @question
 
