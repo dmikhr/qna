@@ -16,6 +16,10 @@ class User < ApplicationRecord
     item.user_id == id
   end
 
+  def subscribed?(item)
+    subscriptions.exists?(subscribable_id: item.id)
+  end
+
   def self.find_for_oauth(auth)
     Services::FindForOauth.new.call(auth)
   end

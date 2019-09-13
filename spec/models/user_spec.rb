@@ -52,4 +52,19 @@ RSpec.describe User, type: :model do
       expect{ User.create_by_email('registered@user.com') }.to_not change(User, :count)
     end
   end
+
+  describe 'Subscription' do
+    let(:user) { create(:user) }
+    let(:user_other) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:subscription) { create(:subscription, question: question, user: user) }
+
+    it 'checks if user is subscribed' do
+      expect(user.subscribed?(question)).to eq true
+    end
+
+    it 'other user is not subscribed' do
+      expect(user_other.subscribed?(question)).to eq false
+    end
+  end
 end
