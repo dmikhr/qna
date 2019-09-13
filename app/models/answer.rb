@@ -23,5 +23,4 @@ class Answer < ApplicationRecord
       question.reward.update(user: user)
     end
   end
-
 end

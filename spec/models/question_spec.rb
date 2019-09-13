@@ -8,6 +8,7 @@ RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
   it { should have_one(:reward).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:body) }
@@ -20,6 +21,15 @@ RSpec.describe Question, type: :model do
 
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  describe 'after question is created' do
+    let(:user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+
+    it 'author is subscribed for notifications' do
+      expect(user.subscriptions.first.subscribable_id).to eq question.id
+    end
   end
 
   it_behaves_like 'votable' do
