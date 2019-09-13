@@ -56,11 +56,16 @@ RSpec.describe User, type: :model do
   describe 'Subscription' do
     let(:user) { create(:user) }
     let(:user_other) { create(:user) }
-    let(:question) { create(:question, user: user) }
-    let(:subscription) { create(:subscription, question: question, user: user) }
+    let(:author) { create(:user) }
+    let(:question) { create(:question, user: author) }
+    let(:subscription) { create(:subscription, user: user, subscribable: question) }
 
-    it 'checks if user is subscribed' do
-      expect(user.subscribed?(question)).to eq true
+    it 'user is subscribed' do
+      expect(user.subscribed?(subscription.subscribable)).to eq true
+    end
+
+    it 'author is subscribed' do
+      expect(author.subscribed?(question)).to eq true
     end
 
     it 'other user is not subscribed' do

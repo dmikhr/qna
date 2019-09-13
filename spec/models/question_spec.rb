@@ -28,7 +28,7 @@ RSpec.describe Question, type: :model do
     let!(:question) { create(:question, user: user) }
 
     it 'author is subscribed for notifications' do
-      expect(user.subscriptions.first.subscribable_id).to eq question.id
+      expect(user.subscriptions.first.subscribable).to eq question
     end
   end
 
