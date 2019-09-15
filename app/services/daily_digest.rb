@@ -1,5 +1,5 @@
 class Services::DailyDigest
-  def send_digest
+  def self.call
     User.find_each do |user|
       DailyDigestMailer.digest(user).deliver_later
     end

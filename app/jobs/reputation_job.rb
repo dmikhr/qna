@@ -2,6 +2,6 @@ class ReputationJob < ApplicationJob
   queue_as :default
 
   def perform(object)
-    Services::Reputation.calculate(object)
+    Services::Reputation.call(object)
   end
 end

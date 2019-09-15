@@ -2,6 +2,6 @@ class NewAnswerNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(question)
-    Services::NewAnswerNotification.new.notify(question)
+    Services::NewAnswerNotification.call(question)
   end
 end
