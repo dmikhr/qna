@@ -13,8 +13,8 @@
 #   rake "some:great:rake:task"
 # end
 #
-every 1.day do
-  runner "DailyDigestJob.perform_now"
+every 1.day, at: '8pm' do
+  runner "Services::DailyDigest.call"
 end
 
 # Learn more: http://github.com/javan/whenever
