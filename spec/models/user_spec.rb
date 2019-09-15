@@ -61,15 +61,15 @@ RSpec.describe User, type: :model do
     let(:subscription) { create(:subscription, user: user, subscribable: question) }
 
     it 'user is subscribed' do
-      expect(user.subscribed?(subscription.subscribable)).to be true
+      expect(user.subscribed?(subscription.subscribable)).to be_truthy
     end
 
     it 'author is subscribed' do
-      expect(author.subscribed?(question)).to be true
+      expect(author.subscribed?(question)).to be_truthy
     end
 
     it 'other user is not subscribed' do
-      expect(user_other.subscribed?(question)).to be false
+      expect(user_other.subscribed?(question)).to be_falsey
     end
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe GistService, type: :service do
     end
 
     it 'with nonexistent gist_id' do
-      expect(gist_service_with_error).to be false
+      expect(gist_service_with_error).to be_falsey
     end
   end
 end
