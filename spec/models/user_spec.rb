@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:rewards).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -49,6 +50,26 @@ RSpec.describe User, type: :model do
 
     it "don't create user if it already exists" do
       expect{ User.create_by_email('registered@user.com') }.to_not change(User, :count)
+    end
+  end
+
+  describe 'Subscription' do
+    let(:user) { create(:user) }
+    let(:user_other) { create(:user) }
+    let(:author) { create(:user) }
+    let(:question) { create(:question, user: author) }
+    let(:subscription) { create(:subscription, user: user, subscribable: question) }
+
+    it 'user is subscribed' do
+      expect(user.subscribed?(subscription.subscribable)).to be_truthy
+    end
+
+    it 'author is subscribed' do
+      expect(author.subscribed?(question)).to be_truthy
+    end
+
+    it 'other user is not subscribed' do
+      expect(user_other.subscribed?(question)).to be_falsey
     end
   end
 end

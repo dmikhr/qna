@@ -1,0 +1,4 @@
+h1 DailyDigest#digest
+p = @greeting + ", here are new questions appeared in the last 24 hrs."
+- @questions.each do |question|
+  p = link_to(question.title, url_for(question))

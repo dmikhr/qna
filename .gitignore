@@ -41,3 +41,5 @@ cop.log
 coverage/*
 
 .env
+
+dump.rdb

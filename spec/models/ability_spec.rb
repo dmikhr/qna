@@ -26,7 +26,6 @@ describe Ability, type: :model do
     let(:question) { create(:question, user: user) }
     let(:question_other) { create(:question, user: other) }
 
-
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
 
@@ -74,6 +73,11 @@ describe Ability, type: :model do
 
     context 'Profile' do
       it { should be_able_to [:index, :me], User }
+    end
+
+    context 'Subscription' do
+      it { should be_able_to :create, Subscription }
+      it { should_not be_able_to :destroy, create(:subscription, user: other, subscribable: question_other) }
     end
   end
 end

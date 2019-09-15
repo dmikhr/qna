@@ -1,0 +1,5 @@
+' DailyDigest#digest
+= "\r\n" * 2
+' #{@greeting + ", here are new questions appeared in the last 24 hrs."}
+- @questions.each do |question|
+  = "#{question.title}\r\n"

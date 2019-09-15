@@ -23,7 +23,7 @@ RSpec.describe Answer, type: :model do
 
     it 'select answer as best' do
       expect{ answers[-1].select_best }.to change{ answers[-1].best }.from(false).to(true)
-      answers[0, answers.size - 1].each { |answer| expect(answer.best).to eq false }
+      answers[0, answers.size - 1].each { |answer| expect(answer.best).to be false }
     end
 
     it 'best answer is first in the list' do

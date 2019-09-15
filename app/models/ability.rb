@@ -46,5 +46,8 @@ class Ability
     can :index, User
     # api/v1/profiles#me
     can :me, User, user: user
+
+    can :create, Subscription
+    can :destroy, Subscription, user: user
   end
 end
