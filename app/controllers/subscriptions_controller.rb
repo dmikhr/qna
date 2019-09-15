@@ -21,11 +21,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def load_question
-    @question = Question.find_by(id: subscribable_id)
+    @question = Question.find(subscribable_id)
   end
 
   def load_subscription
-    @subscription = Subscription.find_by(subscribable_id: subscribable_id,
+    @subscription = Subscription.find_by!(subscribable_id: subscribable_id,
                                          subscribable_type: "Question",
                                          user: current_user)
   end

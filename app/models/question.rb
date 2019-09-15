@@ -20,11 +20,11 @@ class Question < ApplicationRecord
   after_create :calculate_reputation
 
   # при создании вопроса автор автоматически подписывается на уведомления
-  after_create :subscribe_author
+  after_create :subscribe_author!
 
   private
 
-  def subscribe_author
+  def subscribe_author!
     subscriptions.create!(user: user)
   end
 

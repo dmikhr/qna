@@ -34,8 +34,7 @@ RSpec.describe SubscriptionsController, type: :controller do
 
     context 'unauthenticated user' do
       it 'cannot unsubscribe' do
-        delete :destroy, params: { id: question.id, format: :js }
-        expect { post :destroy, params: { id: question.id } }.to_not change(Subscription, :count)
+        expect { delete :destroy, params: { id: question.id, format: :js } }.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
   end
