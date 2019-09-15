@@ -17,12 +17,12 @@ RSpec.describe SubscriptionsController, type: :controller do
 
       it 'assigns subscription to current user' do
         post :create, params: { id: question.id, format: :js }
-        expect(assigns(:subscription).user_id).to eq(user.id)
+        expect(assigns(:subscription).user_id).to be user.id
       end
 
       it 'creates subscription to a given question' do
         post :create, params: { id: question.id, format: :js }
-        expect(assigns(:subscription).subscribable_id).to eq(question.id)
+        expect(assigns(:subscription).subscribable_id).to be question.id
       end
     end
 
