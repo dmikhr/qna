@@ -47,6 +47,7 @@ class Ability
     # api/v1/profiles#me
     can :me, User, user: user
 
-    can [:create, :destroy], Subscription
+    can :create, Subscription
+    can :destroy, Subscription, user: user
   end
 end
