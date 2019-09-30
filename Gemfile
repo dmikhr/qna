@@ -59,6 +59,9 @@ gem 'doorkeeper'
 
 gem 'cancancan'
 
+gem 'mysql2', '0.4.9'
+gem 'thinking-sphinx', '4.0.0'
+
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails', groups: [:development, :test]
 
@@ -83,9 +86,10 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'capybara-email'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+  # gem 'chromedriver-helper'
+  gem 'webdrivers'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
   gem 'launchy'
