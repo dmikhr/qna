@@ -1,5 +1,6 @@
 class Services::Search
   def self.call(types, query)
+    # byebug
     # какие модели доступны для поиска и имя атрибута для вывода в поиске
     type_rules = { question: :title, answer: :body, comment: :body, user: :email }
 
@@ -10,8 +11,10 @@ class Services::Search
 
     types.each do |type|
       search_results = type.to_s.capitalize.constantize.search(query)
-      search_results = search_results.map { |search_result| { type: type, id: search_result.id, data: search_result.send(type_rules[type])} }
-      @search_results_all << search_results if search_results.present?
+      if search_results.present?
+        search_results = search_results.map { |search_result| { type: type, id: search_result.id, data: search_result.send(type_rules[type])} }
+        @search_results_all << search_results
+      end
     end
     @search_results_all.flatten
   end
