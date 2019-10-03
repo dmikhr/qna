@@ -1,6 +1,5 @@
 class Services::Search
   def self.call(types, query)
-    # byebug
     # какие модели доступны для поиска и имя атрибута для вывода в поиске
     type_rules = { question: :title, answer: :body, comment: :body, user: :email }
 

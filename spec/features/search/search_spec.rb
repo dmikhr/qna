@@ -5,11 +5,14 @@ feature 'User can search for a question' do
   given(:user_creator) { create(:user, email: 'creator@creator.local') }
   given!(:user) { create(:user, email: 'keyword@test.com') }
   given!(:user2) { create(:user, email: 'another@test.com') }
+
   given!(:question) { create(:question, title: 'keyword written', user: user_creator) }
   given!(:question2) { create(:question, title: 'some keyword', user: user_creator) }
   given!(:question3) { create(:question, title: 'question another', user: user_creator) }
+
   given!(:answer) { create(:answer, body: 'keyword for answer', question: question, user: user_creator) }
   given!(:answer2) { create(:answer, body: 'answer another', question: question, user: user_creator) }
+
   given!(:comment) { create(:comment, body: 'keyword for comment', commentable: question, user: user_creator) }
   given!(:comment2) { create(:comment, body: 'comment another', commentable: question, user: user_creator) }
   given!(:comment_long) { create(:comment, body: 'this is a comment that contains long text', commentable: question, user: user_creator) }
