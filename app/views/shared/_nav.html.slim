@@ -1,3 +1,5 @@
+= link_to 'Search', searches_path
+
 - if current_user.present?
   = link_to 'Log Out', destroy_user_session_path, method: :delete
   = link_to 'My Rewards', rewards_path

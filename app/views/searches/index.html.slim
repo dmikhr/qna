@@ -1,0 +1,23 @@
+= form_with url: searches_path, method: :get, local: true do |f|
+  p
+    = f.label :search
+    = f.text_field :search, value: params[:search]
+  p
+    = f.label :question
+    = f.check_box :question, {}, true, false
+    = f.label :answer
+    = f.check_box :answer, {}, true, false
+    = f.label :comment
+    = f.check_box :comment, {}, true, false
+    = f.label :user
+    = f.check_box :user, {}, true, false
+
+  p= f.submit 'Find'
+
+- if @search_results.present?
+  p= "Search results for #{params[:search]}"
+  .search_results
+    ul
+      - @search_results.each do |search_result|
+        li
+          p= search_result_link(search_result)

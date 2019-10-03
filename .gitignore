@@ -43,3 +43,6 @@ coverage/*
 .env
 
 dump.rdb
+
+/config/development.sphinx.conf
+/db/sphinx
