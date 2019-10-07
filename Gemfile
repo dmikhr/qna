@@ -65,6 +65,7 @@ gem 'cancancan'
 gem 'mysql2', '0.4.9'
 gem 'thinking-sphinx', '4.0.0'
 gem 'mini_racer'
+gem 'unicorn'
 
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails', groups: [:development, :test]
@@ -83,6 +84,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'letter_opener'
