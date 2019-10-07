@@ -25,7 +25,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'gon'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
-gem 'sidekiq'
+gem 'sidekiq', '~> 5.1'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 
@@ -82,6 +82,8 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
+
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'letter_opener'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
