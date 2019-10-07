@@ -28,6 +28,9 @@ gem 'oj'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
+
+gem 'ed25519', '>= 1.2', '< 2.0'
+gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -61,6 +64,7 @@ gem 'cancancan'
 
 gem 'mysql2', '0.4.9'
 gem 'thinking-sphinx', '4.0.0'
+gem 'mini_racer'
 
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails', groups: [:development, :test]
@@ -73,6 +77,11 @@ group :development, :test do
 end
 
 group :development do
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-passenger', require: false
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'letter_opener'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
