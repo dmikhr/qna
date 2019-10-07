@@ -22,7 +22,8 @@ class Answer < ApplicationRecord
     Answer.transaction do
       question.answers.where(best: true).update_all(best: false)
       update!(best: true)
-      question.reward.update(user: user)
+      # изменять статус награды, только если награда была задана автором вопроса
+      question.reward.update(user: user) if question.reward
     end
   end
 
