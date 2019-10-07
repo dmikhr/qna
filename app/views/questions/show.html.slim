@@ -1,5 +1,6 @@
 h1= @question.title
 p= @question.body
+p= "Author: #{@question.user.email}"
 
 .subscription
   - if current_user.present?
@@ -23,6 +24,7 @@ p= @question.body
 
 .answers
   = render @question.answers
+  hr
 
 - if can?(:create, Answer)
   .add-answer

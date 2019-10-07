@@ -1,6 +1,8 @@
 -if answer.persisted?
   div id="answer_id_#{answer.id}"
+    hr
     span id="errors_answer_id_#{answer.id}"
+    p= "Answer posted by user #{answer.user.email}"
     p= answer.body
     - if can_vote?(answer)
       = render 'shared/vote', resource: answer

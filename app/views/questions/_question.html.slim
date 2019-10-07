@@ -10,3 +10,4 @@
       - if can?(:update, question)
           p= link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
           = render 'questions/question_edit_form', question: question
+      hr
