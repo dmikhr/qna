@@ -30,13 +30,13 @@ feature 'User can search for a question' do
         within '.search_results' do
           expect(page).to have_link question.title, href: question_path(question)
           expect(page).to have_link question2.title, href: question_path(question2)
-          expect(page).to have_link answer.body, href: answer_path(answer)
+          expect(page).to have_content answer.body
           expect(page).to have_content comment.body
           expect(page).to have_content user.email
 
           expect(page).to_not have_link question3.title, href: question_path(question3)
-          expect(page).to_not have_link answer2.body, href: answer_path(answer2)
-          expect(page).to_not have_link comment2.body, href: answer_path(comment2)
+          expect(page).to_not have_content answer2.body
+          expect(page).to_not have_content comment2.body
           expect(page).to_not have_content user2.email
         end
       end
@@ -55,7 +55,7 @@ feature 'User can search for a question' do
           expect(page).to have_link question2.title, href: question_path(question2)
           expect(page).to have_content comment.body
 
-          expect(page).to_not have_link answer.body, href: answer_path(answer)
+          expect(page).to_not have_content answer.body
           expect(page).to_not have_content user.email
         end
       end
