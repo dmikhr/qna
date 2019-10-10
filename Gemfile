@@ -66,6 +66,7 @@ gem 'mysql2', '0.4.9'
 gem 'thinking-sphinx', '4.0.0'
 gem 'mini_racer'
 gem 'unicorn'
+gem 'redis-rails'
 
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails', groups: [:development, :test]

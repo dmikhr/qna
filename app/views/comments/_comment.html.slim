@@ -1,2 +1,3 @@
-div id="comment_id_#{comment.id}"
-  p= comment.body
+- cache_if !current_user&.admin?, comment do
+  div id="comment_id_#{comment.id}"
+    p= comment.body

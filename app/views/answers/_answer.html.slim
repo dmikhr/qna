@@ -1,25 +1,26 @@
 -if answer.persisted?
-  div id="answer_id_#{answer.id}"
-    hr
-    span id="errors_answer_id_#{answer.id}"
-    p= "Answer posted by user #{answer.user.email}"
-    p= answer.body
-    - if can_vote?(answer)
-      = render 'shared/vote', resource: answer
-    = render 'shared/files_list', resource: answer
-    .links
-      = render 'shared/links_list', resource: answer
-    - if can?(:select_best, answer)
-        p= link_to 'Select as best', select_best_answer_path(answer), remote: true, class: 'select-best', method: :patch
-    .delete-answer
-      - if can?(:destroy, answer)
-        p= link_to 'Delete answer', answer_path(answer), remote: true, method: :delete
-    .edit-answer
-      - if can?(:update, answer)
-        p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-        = render 'answers/answer_edit_form', answer: answer
-    .answer-comments
-      = render 'shared/comments_list', resource: answer
-    - if can?(:create, Comment)
-      .add-comment-answer
-        = render 'shared/add_comment_form', commentable: answer
+  - cache_if !current_user&.admin?, answer do
+    div id="answer_id_#{answer.id}"
+      hr
+      span id="errors_answer_id_#{answer.id}"
+      p= "Answer posted by user #{answer.user.email}"
+      p= answer.body
+      - if can_vote?(answer)
+        = render 'shared/vote', resource: answer
+      = render 'shared/files_list', resource: answer
+      .links
+        = render 'shared/links_list', resource: answer
+      - if can?(:select_best, answer)
+          p= link_to 'Select as best', select_best_answer_path(answer), remote: true, class: 'select-best', method: :patch
+      .delete-answer
+        - if can?(:destroy, answer)
+          p= link_to 'Delete answer', answer_path(answer), remote: true, method: :delete
+      .edit-answer
+        - if can?(:update, answer)
+          p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          = render 'answers/answer_edit_form', answer: answer
+      .answer-comments
+        = render 'shared/comments_list', resource: answer
+      - if can?(:create, Comment)
+        .add-comment-answer
+          = render 'shared/add_comment_form', commentable: answer
