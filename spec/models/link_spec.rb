@@ -4,7 +4,7 @@ RSpec.describe Link, type: :model do
   it { should have_db_column(:name).of_type(:string) }
   it { should have_db_column(:url).of_type(:string) }
 
-  it { should belong_to :linkable }
+  it { should belong_to(:linkable).touch(true) }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :url }

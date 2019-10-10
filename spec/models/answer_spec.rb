@@ -5,7 +5,7 @@ RSpec.describe Answer, type: :model do
   it { should have_db_column(:best).of_type(:boolean) }
   it { should have_db_column(:user_id).of_type(:integer) }
 
-  it { should belong_to :question }
+  it { should belong_to(:question).touch(true) }
   it { should belong_to :user }
   it { should have_many(:links).dependent(:destroy) }
 
