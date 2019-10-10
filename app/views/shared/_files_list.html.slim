@@ -1,3 +1,4 @@
 - resource.files.each do |file|
-  div id="file_id_#{file.id}"
-    p= link_to file.filename.to_s, url_for(file)
+  - cache_if !current_user&.admin?, file do
+    div id="file_id_#{file.id}"
+      p= link_to file.filename.to_s, url_for(file)
